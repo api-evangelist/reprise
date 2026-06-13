@@ -1,0 +1,9 @@
+{
+  "aid": "reprise",
+  "url": "https://www.reprise.com/resources/blog",
+  "rssURL": null,
+  "rssFound": false,
+  "note": "No RSS/Atom feed discovered at common paths (/feed, /rss.xml, /resources/blog/rss.xml, /resources/blog/feed). Blog is at https://www.reprise.com/resources/blog but does not expose a machine-readable feed.",
+  "lastChecked": "2026-06-13",
+  "posts": []
+}

@@ -1,0 +1,67 @@
+{
+  "@context": {
+    "@vocab": "https://schema.org/",
+    "reprise": "https://www.reprise.com/",
+    "aid": "https://apis.io/aid",
+    "humanURL": "https://apis.io/humanURL",
+    "baseURL": "https://apis.io/baseURL"
+  },
+  "@type": "Organization",
+  "@id": "https://www.reprise.com/",
+  "name": "Reprise",
+  "description": "Reprise is the leading enterprise demo automation platform that enables sales and marketing teams to create guided product tours, sandbox demos, and interactive leave-behind experiences without engineering involvement.",
+  "url": "https://www.reprise.com/",
+  "sameAs": [
+    "https://github.com/GetReprise",
+    "https://www.linkedin.com/company/getreprise",
+    "https://x.com/getreprise"
+  ],
+  "offers": [
+    {
+      "@type": "Offer",
+      "name": "Reprise Platform",
+      "url": "https://www.reprise.com/contact"
+    }
+  ],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://www.reprise.com/"
+  },
+  "hasPart": [
+    {
+      "@type": "WebAPI",
+      "@id": "reprise:data-api",
+      "name": "Reprise Data API",
+      "description": "The Reprise Data API allows teams to pull real-time, click-level demo engagement data directly from Reprise into data warehouses, data lakes, or downstream platforms.",
+      "documentation": "https://docs.reprise.com/",
+      "url": "https://api.reprise.com",
+      "provider": {
+        "@type": "Organization",
+        "name": "Reprise",
+        "url": "https://www.reprise.com/"
+      },
+      "applicationCategory": "Demo Analytics",
+      "keywords": ["Demo Analytics", "Data Export", "Engagement Tracking", "Sales Intelligence"]
+    },
+    {
+      "@type": "WebAPI",
+      "@id": "reprise:html-environment-data-api",
+      "name": "Reprise HTML Environment Data API",
+      "description": "The Reprise HTML Environment Data API enables dynamic data injection into HTML-based demo environments, supporting portal ID configuration, time period parameters, and authentication via generated tokens.",
+      "documentation": "https://reprise.zendesk.com/hc/en-us/articles/18940321925659-HTML-Environment-Data-API",
+      "url": "https://api.reprise.com",
+      "provider": {
+        "@type": "Organization",
+        "name": "Reprise",
+        "url": "https://www.reprise.com/"
+      },
+      "applicationCategory": "Data Injection",
+      "keywords": ["Data Injection", "HTML Environments", "Demo Customization", "Real-time Data"]
+    }
+  ],
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "url": "https://www.reprise.com/contact",
+    "contactType": "customer support"
+  }
+}
