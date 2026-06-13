@@ -1,0 +1,85 @@
+name: Reprise Plans and Pricing
+description: >
+  Reprise uses a custom, quote-based enterprise pricing model with no publicly listed tiers.
+  Pricing is determined by number of users, demo volume, modules selected, and support level
+  required. Annual contracts are standard, with multi-year discount options available.
+  Prospective customers must contact the sales team or request a demo to receive a quote.
+specificationVersion: "0.1"
+
+plans:
+  - name: Starter / Base
+    description: >
+      Entry-level access to the Reprise platform for smaller teams or pilots. Includes
+      core demo creation capabilities such as Replay (guided product tours), screen capture,
+      basic analytics, and standard integrations with Salesforce, HubSpot, and Marketo.
+    url: https://www.reprise.com/contact
+    pricingModel: custom
+    billingCycle: annual
+    estimatedCostMin: 10500
+    estimatedCostMax: 28000
+    currency: USD
+    features:
+      - Replay guided product tours
+      - Screen capture demo creation
+      - Basic session analytics
+      - Salesforce integration
+      - HubSpot integration
+      - Marketo integration
+      - Demo sharing and embedding
+      - Standard support
+
+  - name: Professional / Growth
+    description: >
+      Mid-tier enterprise plan with expanded user seats and advanced analytics. Includes
+      Data API access, Google Analytics integration, custom sharing links, team collaboration
+      tools, and data export capabilities for BI tools and data warehouses.
+    url: https://www.reprise.com/contact
+    pricingModel: custom
+    billingCycle: annual
+    estimatedCostMin: 28000
+    estimatedCostMax: 64000
+    currency: USD
+    features:
+      - Everything in Starter
+      - Data API access
+      - Google Analytics integration
+      - Custom sharing and tracking links
+      - Session-level analytics
+      - Click-level engagement data
+      - Team collaboration and demo libraries
+      - Data warehouse export
+      - SSO (Single Sign-On)
+      - SOC 2 Type II compliance
+
+  - name: Enterprise
+    description: >
+      Full-featured enterprise plan for large sales and marketing organizations. Includes
+      Replicate (sandbox cloning), Data Injection, Reprise MCP (AI agent integration),
+      advanced analytics, dedicated customer success, SLA guarantees, and full API access
+      for custom integrations and data pipelines.
+    url: https://www.reprise.com/contact
+    pricingModel: custom
+    billingCycle: annual
+    estimatedCostMin: 64000
+    estimatedCostMax: null
+    currency: USD
+    features:
+      - Everything in Professional
+      - Replicate sandbox environments
+      - Data Injection (real-time data customization)
+      - Reprise MCP AI agent integration
+      - Full API access (Data API + HTML Environment Data API)
+      - Advanced session and aggregate analytics
+      - Custom API integrations
+      - Dedicated Customer Success Manager
+      - Enterprise SLA
+      - GDPR compliance
+      - Multi-year discount options
+      - Implementation and onboarding support
+      - Priority support
+
+notes: >
+  Pricing data sourced from third-party review sites including Supademo, SmartCue,
+  TrustRadius, and Vendr as of June 2026. Reprise does not publicly disclose pricing
+  on their website. The median reported contract value is approximately $28,000/year.
+  Actual pricing requires a direct sales engagement at reprise.com/contact.

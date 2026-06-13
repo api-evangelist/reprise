@@ -1,0 +1,117 @@
+name: Reprise FinOps
+description: >
+  FinOps Framework 1.0 FOCUS-aligned cost management guidance for Reprise enterprise
+  demo automation platform usage. Reprise uses custom annual contract pricing with no
+  usage-based billing; cost optimization focuses on seat utilization, demo volume
+  efficiency, and contract negotiation leverage.
+specificationVersion: "1.0"
+
+vendor: Reprise
+vendorUrl: https://www.reprise.com/
+pricingModel: custom-annual-contract
+billingCycle: annual
+currency: USD
+
+costAllocation:
+  - dimension: team
+    description: >
+      Allocate Reprise subscription costs across sales, presales, and marketing teams
+      based on number of seats provisioned per team and demo creation volume.
+  - dimension: product-line
+    description: >
+      Attribute demo creation and sharing activity to specific product lines or
+      business units to understand ROI per product area.
+  - dimension: region
+    description: >
+      Allocate costs by geographic region for multinational organizations where
+      presales and marketing teams operate independently.
+  - dimension: campaign
+    description: >
+      Track demo engagement metrics by campaign or deal stage to calculate
+      cost-per-demo and pipeline influence per dollar spent.
+
+costOptimization:
+  - practice: Seat Right-Sizing
+    description: >
+      Audit active users quarterly against contracted seat count. Remove or reassign
+      seats for users who have not created or shared a demo in the past 90 days.
+      Reprise pricing scales with user count, so eliminating unused seats at renewal
+      is a primary cost lever.
+    savings: medium
+
+  - practice: Contract Negotiation at Renewal
+    description: >
+      Engage Reprise account management 90 days before contract renewal to negotiate
+      pricing. Benchmark against competitor pricing (Navattic median ~$7,200/year,
+      Reprise median ~$28,000/year) to leverage pricing discussions. Multi-year
+      commitments typically yield 10-20% discounts.
+    savings: high
+
+  - practice: Module Scope Review
+    description: >
+      Evaluate which Reprise modules (Replay, Replicate, Data Injection, Reprise MCP)
+      are actively used. Remove unused modules from the renewal contract scope to
+      reduce total contract value.
+    savings: medium
+
+  - practice: Demo Library Rationalization
+    description: >
+      Audit the demo library for stale or duplicated demos. Consolidating demo assets
+      reduces maintenance overhead and can justify smaller seat counts at renewal.
+    savings: low
+
+  - practice: ROI Measurement via Data API
+    description: >
+      Use the Reprise Data API to pull engagement data into CRM or BI tools and
+      calculate pipeline influence per demo. Quantifying ROI strengthens internal
+      budget justification and provides negotiation leverage with Reprise at renewal.
+    savings: informational
+
+budgeting:
+  - category: Subscription
+    description: Annual platform and seat license fee paid upfront or in installments
+    estimatedAnnualMin: 10500
+    estimatedAnnualMax: 100000
+    currency: USD
+    notes: >
+      Median reported contract is ~$28,000/year. Enterprise contracts with large seat
+      counts or full module suites can exceed $100,000/year.
+
+  - category: Implementation
+    description: Onboarding, training, and setup fees; may be included or quoted separately
+    estimatedAnnualMin: 0
+    estimatedAnnualMax: 15000
+    currency: USD
+    notes: >
+      Implementation costs vary; some contracts include onboarding within the subscription
+      fee. Dedicated Customer Success Managers are standard on enterprise tiers.
+
+  - category: Integration Development
+    description: Internal engineering time to build Data API integrations and data pipelines
+    estimatedAnnualMin: 0
+    estimatedAnnualMax: 20000
+    currency: USD
+    notes: >
+      Cost depends on complexity of data warehouse integration and number of downstream
+      platforms. Pre-built connectors for Salesforce, HubSpot, Marketo reduce this cost.
+
+focusAlignment:
+  - field: BilledCost
+    mapping: Annual contract value invoiced by Reprise
+  - field: EffectiveCost
+    mapping: Contract value amortized across billing period (monthly cost = annual / 12)
+  - field: ListUnitPrice
+    mapping: Not applicable; Reprise does not publish list prices
+  - field: PricingCategory
+    mapping: Commitment-based (annual contract)
+  - field: ServiceName
+    mapping: Reprise Demo Automation Platform
+  - field: ServiceSubcategory
+    mapping: Sales Enablement / Demo Automation
+  - field: ResourceId
+    mapping: Reprise Organization ID (account identifier)
+  - field: Tags
+    mapping: team, product-line, region, campaign
+
+statusPage: https://status.reprise.com/
+pricingUrl: https://www.reprise.com/contact

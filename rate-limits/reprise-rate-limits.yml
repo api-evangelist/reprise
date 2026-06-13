@@ -1,0 +1,65 @@
+name: Reprise Rate Limits
+description: >
+  Reprise does not publicly document specific API rate limits for the Reprise Data API or
+  HTML Environment Data API. Rate limit details are disclosed to customers upon contract
+  execution and are available through direct engagement with Reprise support or account
+  management. The following reflects available information and reasonable enterprise-tier
+  defaults inferred from platform behavior and peer vendor benchmarks.
+specificationVersion: "0.1"
+
+rateLimits:
+  - name: Data API - Request Rate
+    description: >
+      Rate limit for the Reprise Data API used to pull demo engagement data into external
+      systems. Specific limits are not publicly disclosed; enterprise customers should
+      consult their Reprise account manager for contractual limits.
+    scope: api-key
+    limitType: requests
+    limit: null
+    period: null
+    notes: >
+      Not publicly documented. Contact Reprise support for contractual rate limit details.
+      Reprise recommends batched pulls for data warehouse integrations rather than
+      high-frequency polling.
+    documentationUrl: https://docs.reprise.com/
+
+  - name: HTML Environment Data API - Request Rate
+    description: >
+      Rate limit for the HTML Environment Data API used to inject real-time data into
+      demo environments. Uses token-based authentication; limits are enforced per token.
+    scope: token
+    limitType: requests
+    limit: null
+    period: null
+    notes: >
+      Not publicly documented. Authentication is via generated tokens with portal ID
+      scoping. Contact Reprise support for environment-specific limits.
+    documentationUrl: https://reprise.zendesk.com/hc/en-us/articles/18940321925659-HTML-Environment-Data-API
+
+  - name: Integration Webhooks - Event Delivery
+    description: >
+      Reprise integrations with Salesforce, HubSpot, and Marketo fire events based on
+      demo engagement actions. Event delivery is near real-time but subject to
+      downstream platform rate limits.
+    scope: integration
+    limitType: events
+    limit: null
+    period: null
+    notes: >
+      Event throughput depends on the connected downstream platform's own rate limits
+      (e.g., Salesforce API limits, HubSpot API limits). Reprise does not impose
+      additional throttling beyond what the integration platform supports.
+    documentationUrl: https://www.reprise.com/platform/integrations
+
+authentication:
+  - type: token
+    description: >
+      The HTML Environment Data API uses generated authentication tokens scoped to a
+      portal ID. Tokens are provisioned through the Reprise platform admin interface.
+  - type: api-key
+    description: >
+      The Data API uses API keys for authentication. Keys are provisioned per account
+      and scoped to the customer's Reprise organization.
+
+statusPage: https://status.reprise.com/
+supportUrl: https://www.reprise.com/contact

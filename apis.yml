@@ -1,0 +1,102 @@
+aid: reprise
+name: Reprise
+description: >
+  Reprise is the leading enterprise demo automation platform that enables sales and marketing
+  teams to create guided product tours, sandbox demos, and interactive leave-behind experiences
+  without engineering involvement. The platform supports screen capture, data injection, and
+  fully cloned environments to produce pixel-perfect, customizable product demonstrations at
+  scale. Reprise offers a Data API for pulling real-time click-level engagement data into data
+  warehouses and downstream platforms, along with pre-built integrations with Salesforce,
+  HubSpot, Marketo, and Google Analytics. With over 20 million demos served, Reprise is
+  trusted by enterprise customers including Databricks, ServiceNow, Cloudera, and iCIMS.
+type: Index
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+url: https://raw.githubusercontent.com/api-evangelist/reprise/refs/heads/main/apis.yml
+created: 2026-06-13
+modified: 2026-06-13
+specificationVersion: "0.19"
+tags:
+  - Demo Automation
+  - Product Tours
+  - Sales Demos
+  - Interactive Demos
+  - Sandbox Environments
+  - Enterprise Sales
+  - Marketing Technology
+  - Sales Enablement
+
+apis:
+  - aid: reprise:data-api
+    name: Reprise Data API
+    description: >
+      The Reprise Data API allows teams to pull real-time, click-level demo engagement data
+      directly from Reprise into data warehouses, data lakes, or downstream platforms. It
+      supports analytics data including demo views, session data, viewer identity, activity
+      tracking, and time-on-screen metrics, enabling automated sales and marketing workflows
+      based on prospect interactions with demos.
+    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    humanURL: https://www.reprise.com/platform/analyze-optimize/
+    baseURL: https://api.reprise.com
+    tags:
+      - Demo Analytics
+      - Data Export
+      - Engagement Tracking
+      - Sales Intelligence
+    properties:
+      - type: Documentation
+        url: https://docs.reprise.com/
+      - type: OpenAPI
+        url: https://docs.reprise.com/
+    contact:
+      - FN: Reprise Support
+        url: https://www.reprise.com/contact
+
+  - aid: reprise:html-environment-data-api
+    name: Reprise HTML Environment Data API
+    description: >
+      The Reprise HTML Environment Data API enables dynamic data injection into HTML-based
+      demo environments. It supports portal ID configuration, time period parameters for
+      pulling demo data, and authentication via generated tokens, allowing real-time
+      customization of live application data within captured demo experiences.
+    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    humanURL: https://reprise.zendesk.com/hc/en-us/articles/18940321925659-HTML-Environment-Data-API
+    baseURL: https://api.reprise.com
+    tags:
+      - Data Injection
+      - HTML Environments
+      - Demo Customization
+      - Real-time Data
+    properties:
+      - type: Documentation
+        url: https://reprise.zendesk.com/hc/en-us/articles/18940321925659-HTML-Environment-Data-API
+    contact:
+      - FN: Reprise Support
+        url: https://www.reprise.com/contact
+
+common:
+  - type: Website
+    url: https://www.reprise.com/
+  - type: Documentation
+    url: https://docs.reprise.com/
+  - type: GitHubOrg
+    url: https://github.com/GetReprise
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/getreprise
+  - type: Blog
+    url: https://www.reprise.com/resources/blog
+  - type: Pricing
+    url: https://www.reprise.com/contact
+  - type: StatusPage
+    url: https://status.reprise.com/
+  - type: X
+    url: https://x.com/getreprise
+  - type: Plans
+    url: plans/reprise-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/reprise-rate-limits.yml
+  - type: FinOps
+    url: finops/reprise-finops.yml
+
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
