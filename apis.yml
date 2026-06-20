@@ -10,7 +10,7 @@ description: >
   HubSpot, Marketo, and Google Analytics. With over 20 million demos served, Reprise is
   trusted by enterprise customers including Databricks, ServiceNow, Cloudera, and iCIMS.
 type: Index
-image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 url: https://raw.githubusercontent.com/api-evangelist/reprise/refs/heads/main/apis.yml
 created: 2026-06-13
 modified: 2026-06-13
@@ -34,7 +34,7 @@ apis:
       supports analytics data including demo views, session data, viewer identity, activity
       tracking, and time-on-screen metrics, enabling automated sales and marketing workflows
       based on prospect interactions with demos.
-    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     humanURL: https://www.reprise.com/platform/analyze-optimize/
     baseURL: https://api.reprise.com
     tags:
@@ -58,7 +58,7 @@ apis:
       demo environments. It supports portal ID configuration, time period parameters for
       pulling demo data, and authentication via generated tokens, allowing real-time
       customization of live application data within captured demo experiences.
-    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     humanURL: https://reprise.zendesk.com/hc/en-us/articles/18940321925659-HTML-Environment-Data-API
     baseURL: https://api.reprise.com
     tags:
