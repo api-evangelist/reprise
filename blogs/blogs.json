@@ -1,21 +1,20 @@
 {
-  "aid": "reprise",
-  "url": "https://www.reprise.com/resources/blog",
-  "rssURL": null,
-  "rssFound": false,
-  "note": "No RSS/Atom feed discovered at common paths (/feed, /rss.xml, /resources/blog/rss.xml, /resources/blog/feed). Blog is at https://www.reprise.com/resources/blog but does not expose a machine-readable feed.",
-  "lastChecked": "2026-06-13",
-  "posts": [],
   "repo": "reprise",
   "feeds": [
     {
-      "source": "https://www.linkedin.com/company/getreprise",
-      "feed_url": "https://www.linkedin.com/company/getreprise",
-      "title": "",
+      "source": "https://www.reprise.com/resources/blog",
+      "feed_url": "",
       "saved": 0,
-      "method": "none"
+      "method": "agent-scrape",
+      "error": "no dates on listing; no in-window posts determinable"
+    },
+    {
+      "source": "https://www.linkedin.com/company/getreprise",
+      "saved": 0,
+      "error": "LinkedIn not scrapable"
     }
   ],
-  "post_count": 0,
-  "fetched": "2026-06-14T20:42:17Z"
+  "fetched": "2026-06-27T13:05:39Z",
+  "post_count": 16,
+  "agent_pulled": "2026-06-27"
 }
