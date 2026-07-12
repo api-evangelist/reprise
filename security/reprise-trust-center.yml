@@ -1,0 +1,12 @@
+generated: '2026-07-11'
+method: searched
+probe: true
+source: https://trust.reprise.com/
+url: https://trust.reprise.com/
+certifications:
+- SOC 2
+evidence:
+- source: https://trust.reprise.com/
+  keywords:
+  - soc 2
+  - trust center

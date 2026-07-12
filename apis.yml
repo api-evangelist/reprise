@@ -74,6 +74,10 @@ apis:
         url: https://www.reprise.com/contact
 
 common:
+  - type: TrustCenter
+    url: security/reprise-trust-center.yml
+  - type: DomainSecurity
+    url: security/reprise-domain-security.yml
   - type: Website
     url: https://www.reprise.com/
   - type: Documentation
