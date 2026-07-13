@@ -2,19 +2,14 @@
   "repo": "reprise",
   "feeds": [
     {
-      "source": "https://www.reprise.com/resources/blog",
-      "feed_url": "",
-      "saved": 0,
-      "method": "agent-scrape",
-      "error": "no dates on listing; no in-window posts determinable"
-    },
-    {
       "source": "https://www.linkedin.com/company/getreprise",
+      "feed_url": "https://www.linkedin.com/company/getreprise",
+      "title": "",
       "saved": 0,
-      "error": "LinkedIn not scrapable"
+      "method": "none"
     }
   ],
-  "fetched": "2026-06-27T13:05:39Z",
+  "fetched": "2026-07-11T11:50:51Z",
   "post_count": 16,
-  "agent_pulled": "2026-06-27"
+  "agent_pulled": "2026-07-04"
 }
