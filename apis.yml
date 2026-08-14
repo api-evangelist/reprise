@@ -1,14 +1,17 @@
 aid: reprise
 name: Reprise
 description: >
-  Reprise is the leading enterprise demo automation platform that enables sales and marketing
-  teams to create guided product tours, sandbox demos, and interactive leave-behind experiences
-  without engineering involvement. The platform supports screen capture, data injection, and
-  fully cloned environments to produce pixel-perfect, customizable product demonstrations at
-  scale. Reprise offers a Data API for pulling real-time click-level engagement data into data
-  warehouses and downstream platforms, along with pre-built integrations with Salesforce,
-  HubSpot, Marketo, and Google Analytics. With over 20 million demos served, Reprise is
-  trusted by enterprise customers including Databricks, ServiceNow, Cloudera, and iCIMS.
+  Reprise is the enterprise demo creation platform sales, presales and marketing teams use to
+  build no-code interactive product demos — guided Product Tours captured from a live front end,
+  Data Injection that overlays prospect-specific data on a real application, and full Clone
+  Environments that reproduce an application down to the code. Reprise ships a remote Model
+  Context Protocol server at app.getreprise.com that exposes more than 100 atomic demo-authoring
+  tools to any MCP client (Claude, ChatGPT, Copilot, Gemini, Codex) over OAuth 2.0 authorization
+  code with PKCE, plus two token-authenticated analytics Data APIs (HTML Environment
+  replay_session_activity and Clone Environment api_replicate_analytics) for pulling click-level
+  demo engagement data into a warehouse. Reprise is SOC 2 Type 2 and ISO/IEC 27001:2022 certified,
+  with SSO and RBAC in every package, and has served over 20 million demos for customers including
+  Databricks, ServiceNow, Cloudera, 1Password, Commvault and iCIMS.
 type: Index
 accessModel:
   pricing: paid
@@ -25,7 +28,7 @@ accessModel:
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/reprise.png
 url: https://raw.githubusercontent.com/api-evangelist/reprise/refs/heads/main/apis.yml
 created: 2026-06-13
-modified: 2026-06-13
+modified: 2026-08-13
 specificationVersion: "0.19"
 tags:
   - Demo Automation
@@ -36,19 +39,63 @@ tags:
   - Enterprise Sales
   - Marketing Technology
   - Sales Enablement
+  - Model Context Protocol
+  - Agent Tooling
+  - Demo Analytics
 
 apis:
-  - aid: reprise:data-api
-    name: Reprise Data API
+  - aid: reprise:mcp
+    name: Reprise MCP Server
     description: >
-      The Reprise Data API allows teams to pull real-time, click-level demo engagement data
-      directly from Reprise into data warehouses, data lakes, or downstream platforms. It
-      supports analytics data including demo views, session data, viewer identity, activity
-      tracking, and time-on-screen metrics, enabling automated sales and marketing workflows
-      based on prospect interactions with demos.
+      The Reprise MCP server is a remote Model Context Protocol endpoint that lets any
+      MCP-compatible AI assistant — Claude, ChatGPT, Codex, Microsoft Copilot, Gemini, Cursor —
+      drive the whole Reprise platform. It exposes more than 100 atomic demo-authoring tools
+      across three product surfaces: tour_* (61 tools for capture, DOM text and attribute
+      editing, guides, variables and links), injection_* (21 tools for datasets, sources and
+      adapters), clone_* (snippets, requests, debug and publish) and nine cross-product
+      platform_* tools (platform_whoami, platform_summary_report, platform_friction_report,
+      platform_folder_*, platform_asset_move). Authentication is OAuth 2.0 authorization code
+      with PKCE S256 against the customer's existing Reprise SSO login, with Dynamic Client
+      Registration supported; tokens inherit the authorizing user's Reprise role and a
+      read-only token scope is available. Product-scoped endpoints expose a smaller tool
+      catalog for clients that cap tool counts.
     image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-    humanURL: https://www.reprise.com/platform/analyze-optimize/
-    baseURL: https://api.reprise.com
+    humanURL: https://www.reprise.com/platform/mcp
+    baseURL: https://app.getreprise.com/mcp/
+    tags:
+      - Model Context Protocol
+      - Agent Tooling
+      - Demo Authoring
+      - OAuth
+    properties:
+      - type: MCPServer
+        url: mcp/reprise-mcp.yml
+      - type: Documentation
+        url: https://reprise.zendesk.com/hc/en-us/articles/50081170817691-The-Reprise-MCP-Meet-your-AI-Demo-Engineer
+      - type: Authentication
+        url: authentication/reprise-authentication.yml
+      - type: OAuthScopes
+        url: scopes/reprise-scopes.yml
+    contact:
+      - FN: Reprise Support
+        email: support@reprise.com
+        url: https://www.reprise.com/contact
+
+  - aid: reprise:data-api
+    name: Reprise Clone Environment Data API
+    description: >
+      The Clone Environment Data API returns viewer session analytics for published Reprise
+      Clone Environment demos as a single JSON pipe (api_replicate_analytics). The response
+      carries a meta block of column names and types followed by a data array of session
+      records: shard_name, client_id, demo_title, demo_published_date, session_date and
+      viewer (the welcome-screen email address when one is used, otherwise the viewer IP).
+      Authentication is a token issued by the customer's Reprise CSM, passed as a token query
+      parameter. start_timestamp is required and end_timestamp is optional; responses are
+      capped at 100MB per call, so Reprise recommends pulling narrow time windows on a
+      schedule rather than a single large backfill.
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+    humanURL: https://reprise.zendesk.com/hc/en-us/articles/28931374746907-Clone-Environment-Data-API
+    baseURL: https://api.us-east.tinybird.co
     tags:
       - Demo Analytics
       - Data Export
@@ -56,63 +103,128 @@ apis:
       - Sales Intelligence
     properties:
       - type: Documentation
-        url: https://docs.reprise.com/
-      - type: OpenAPI
-        url: https://docs.reprise.com/
+        url: https://reprise.zendesk.com/hc/en-us/articles/28931374746907-Clone-Environment-Data-API
+      - type: APIReference
+        url: https://reprise.zendesk.com/hc/en-us/articles/28931374746907-Clone-Environment-Data-API
+      - type: RateLimits
+        url: rate-limits/reprise-rate-limits.yml
     contact:
       - FN: Reprise Support
+        email: support@reprise.com
         url: https://www.reprise.com/contact
 
   - aid: reprise:html-environment-data-api
     name: Reprise HTML Environment Data API
     description: >
-      The Reprise HTML Environment Data API enables dynamic data injection into HTML-based
-      demo environments. It supports portal ID configuration, time period parameters for
-      pulling demo data, and authentication via generated tokens, allowing real-time
-      customization of live application data within captured demo experiences.
+      The HTML Environment Data API returns click-level viewer activity for published Reprise
+      HTML Environment (Product Tour) demos through a single endpoint, replay_session_activity.
+      Each record describes one activity event inside a demo session — snapshot_id and
+      snapshot_title for the screen viewed, guide_id, guide_step_number, guide_text and
+      guide_trigger for the guide shown, button_text and button_action for the interaction,
+      plus session, visitor (name and email captured on the welcome screen), link and published
+      or draft replay identifiers. Authentication is a token created in the Reprise portal
+      under Settings → API Management; the full endpoint URL, including the portal ID, is
+      copied from the demo's Copy API Endpoint menu. start_timestamp and end_timestamp scope
+      the window in UTC, an optional visitor_company=1 parameter adds the viewer-entered
+      company name, and responses are capped at 100MB.
     image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     humanURL: https://reprise.zendesk.com/hc/en-us/articles/18940321925659-HTML-Environment-Data-API
-    baseURL: https://api.reprise.com
+    baseURL: https://api.us-east.tinybird.co
     tags:
-      - Data Injection
-      - HTML Environments
-      - Demo Customization
-      - Real-time Data
+      - Demo Analytics
+      - Data Export
+      - Engagement Tracking
+      - Session Activity
     properties:
       - type: Documentation
         url: https://reprise.zendesk.com/hc/en-us/articles/18940321925659-HTML-Environment-Data-API
+      - type: APIReference
+        url: https://reprise.zendesk.com/hc/en-us/articles/18940321925659-HTML-Environment-Data-API
+      - type: Examples
+        url: https://reprise.zendesk.com/hc/en-us/articles/19639380651547-API-Example-Queries
+      - type: RateLimits
+        url: rate-limits/reprise-rate-limits.yml
     contact:
       - FN: Reprise Support
+        email: support@reprise.com
         url: https://www.reprise.com/contact
 
 common:
-  - type: TrustCenter
-    url: security/reprise-trust-center.yml
-  - type: DomainSecurity
-    url: security/reprise-domain-security.yml
   - type: Website
     url: https://www.reprise.com/
   - type: Documentation
-    url: https://docs.reprise.com/
-  - type: GitHubOrg
+    url: https://reprise.zendesk.com/hc/en-us
+  - type: APIReference
+    url: https://reprise.zendesk.com/hc/en-us/articles/18940321925659-HTML-Environment-Data-API
+  - type: GettingStarted
+    url: https://reprise.zendesk.com/hc/en-us/articles/12519794531099-New-to-Reprise-Get-Started-Here
+  - type: Support
+    url: https://reprise.zendesk.com/hc/en-us
+  - type: GitHubOrganization
     url: https://github.com/GetReprise
   - type: LinkedIn
     url: https://www.linkedin.com/company/getreprise
+  - type: X
+    url: https://x.com/getreprise
   - type: Blog
     url: https://www.reprise.com/resources/blog
   - type: Pricing
-    url: https://www.reprise.com/contact
+    url: https://www.reprise.com/pricing
+  - type: SignUp
+    url: https://www.reprise.com/get-started-reprise
+  - type: Login
+    url: https://app.getreprise.com/auth/login/
+  - type: TermsOfService
+    url: https://www.reprise.com/tc
+  - type: PrivacyPolicy
+    url: https://www.reprise.com/privacy
   - type: StatusPage
     url: https://status.reprise.com/
-  - type: X
-    url: https://x.com/getreprise
+  - type: TrustCenter
+    url: security/reprise-trust-center.yml
+  - type: Compliance
+    url: https://www.reprise.com/platform/enterprise-scale-and-security
+  - type: DomainSecurity
+    url: security/reprise-domain-security.yml
   - type: Plans
     url: plans/reprise-plans-pricing.yml
   - type: RateLimits
     url: rate-limits/reprise-rate-limits.yml
   - type: FinOps
     url: finops/reprise-finops.yml
+  - type: MCPServer
+    url: mcp/reprise-mcp.yml
+  - type: AgentSkill
+    url: skills/_index.yml
+  - type: LLMsTxt
+    url: llms/reprise-llms.txt
+  - type: WellKnown
+    url: well-known/reprise-well-known.yml
+  - type: Authentication
+    url: authentication/reprise-authentication.yml
+  - type: OAuthScopes
+    url: scopes/reprise-scopes.yml
+  - type: Conformance
+    url: conformance/reprise-conformance.yml
+  - type: ErrorCatalog
+    url: errors/reprise-error-codes.yml
+  - type: Lifecycle
+    url: lifecycle/reprise-lifecycle.yml
+  - type: Conventions
+    url: conventions/reprise-conventions.yml
+  - type: DataModel
+    url: data-model/reprise-data-model.yml
+  - type: Components
+    url: components/reprise-components.yml
+  - type: Packages
+    url: packages/reprise-packages.yml
 
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
+
+x-enrichment:
+  date: '2026-08-13'
+  status: enriched
+  artifacts_added: 14
+  pass: local-v1
