@@ -1,0 +1,111 @@
+generated: '2026-08-13'
+method: searched
+source: >
+  https://status.reprise.com/api/v2/ (probed), Reprise help centre, and the provider-published
+  Agent Skills at https://github.com/GetReprise/reprise-skills
+
+versioning:
+  scheme: uri-path
+  current: v2
+  applies_to: reprise:mcp
+  docs: https://reprise.zendesk.com/hc/en-us/articles/50081170817691-The-Reprise-MCP-Meet-your-AI-Demo-Engineer
+  detail: >
+    The Reprise MCP surface is versioned in the path. The current atomic surface exposes
+    per-action tools (tour_dom_text_edit, injection_dataset_create) and lives under /v2/mcp/ with
+    product-scoped children (/v2/mcp/tour/, /v2/mcp/injection/, /v2/mcp/clone/). The unversioned
+    /mcp/ path serves the full-platform catalog.
+  data_apis:
+    scheme: none
+    detail: >
+      Neither analytics Data API carries a version segment. Endpoint identity is the pipe name —
+      replay_session_activity for HTML Environment, api_replicate_analytics for Clone
+      Environment — plus a per-portal token.
+
+deprecation:
+  policy_url: null
+  sunset_header: unknown
+  detail: >
+    Reprise publishes no written deprecation or sunset policy and no Deprecation/Sunset header
+    contract. One superseded surface is documented in passing: the legacy polymorphic MCP tool
+    set (single tools such as tour_edit, tour_capture, tour_lifecycle, injection_widget and
+    html_*) has been replaced by the atomic v2 tools, and Reprise's own router skill instructs a
+    client that still sees the polymorphic names to reconnect to the current endpoint. That is a
+    migration instruction, not a dated deprecation policy, so no Deprecation pointer is emitted.
+  superseded_surfaces:
+    - name: Reprise MCP legacy polymorphic tool surface
+      replaced_by: atomic per-action tools under /v2/mcp/
+      source: skills/reprise-mcp.md
+
+release_cadence:
+  mcp_tools: near-weekly new tools, per the provider
+  discovery: >
+    Reprise directs users to ask the connected assistant "what can the Reprise MCP do?" rather
+    than reading a static list, and ships in-band documentation tools (tour_docs, injection_docs,
+    clone_docs) so the current surface is queryable from the agent.
+  changelog_published: false
+  changelog_note: >
+    No dated public changelog or release-notes page was found on reprise.com, in the help centre,
+    or on the GitHub organization. No changelog/ artifact is written.
+
+status_page:
+  url: https://status.reprise.com/
+  provider: Atlassian Statuspage
+  page_id: hyrmgl3jspzw
+  machine_readable:
+    summary: https://status.reprise.com/api/v2/summary.json
+    status: https://status.reprise.com/api/v2/status.json
+    components: https://status.reprise.com/api/v2/components.json
+    incidents: https://status.reprise.com/api/v2/incidents.json
+    rss: https://status.reprise.com/history.rss
+  components:
+    - API
+    - Replay Editing Platform
+    - Published Replay Demos
+    - Analytics
+    - Extension/Product Capture
+    - Published Replicate Demos
+    - Replicate Editing Platform
+    - Reveal
+  incident_history:
+    total_published: 46
+    most_recent: '2026-04-30'
+    most_recent_title: SAML SSO Issue
+    most_recent_impact: minor
+  probed: '2026-08-13'
+  http_status: 200
+
+sla:
+  url: null
+  uptime_target: null
+  note: >
+    No public SLA or uptime commitment. Reprise contracts are enterprise annual agreements; SLA
+    terms are covered by the customer agreement rather than a published page.
+
+support:
+  email: support@reprise.com
+  help_center: https://reprise.zendesk.com/hc/en-us
+  account: Dedicated Customer Success Manager on enterprise tiers
+
+stale_hosts_retired:
+  - host: api.reprise.com
+    finding: NXDOMAIN as of 2026-08-13; was carried as the baseURL for both Data APIs before this pass
+  - host: docs.reprise.com
+    finding: >
+      NXDOMAIN as of 2026-08-13; was carried as the Documentation pointer. Two help-centre
+      articles still link to it. Documentation now points at the Zendesk help centre.
+
+deprecated_operations: []
+
+x-evidence:
+  fetched: '2026-08-13'
+  probes:
+    - url: https://status.reprise.com/api/v2/summary.json
+      http_status: 200
+    - url: https://status.reprise.com/api/v2/incidents.json
+      http_status: 200
+    - url: https://docs.reprise.com/
+      http_status: 0
+      note: DNS does not resolve
+    - url: https://api.reprise.com/
+      http_status: 0
+      note: DNS does not resolve

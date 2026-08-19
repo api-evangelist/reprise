@@ -1,65 +1,88 @@
+generated: '2026-08-13'
+method: searched
+source: https://reprise.zendesk.com/hc/en-us/articles/18940321925659-HTML-Environment-Data-API
+limit_count: 2
 name: Reprise Rate Limits
 description: >
-  Reprise does not publicly document specific API rate limits for the Reprise Data API or
-  HTML Environment Data API. Rate limit details are disclosed to customers upon contract
-  execution and are available through direct engagement with Reprise support or account
-  management. The following reflects available information and reasonable enterprise-tier
-  defaults inferred from platform behavior and peer vendor benchmarks.
+  Reprise publishes no request-rate limit, no rate-limit response headers and no documented
+  status code on exhaustion for any of its three API surfaces. What it does publish, on both
+  analytics Data APIs, is a hard 100MB response-size ceiling per call plus explicit guidance to
+  pull narrow time windows on a schedule rather than issuing one wide backfill. Those are the two
+  real, provider-published limits recorded here. Everything else is undocumented, and this file
+  says so rather than inventing enterprise-tier defaults.
 specificationVersion: "0.1"
 
 rateLimits:
-  - name: Data API - Request Rate
-    description: >
-      Rate limit for the Reprise Data API used to pull demo engagement data into external
-      systems. Specific limits are not publicly disclosed; enterprise customers should
-      consult their Reprise account manager for contractual limits.
-    scope: api-key
-    limitType: requests
-    limit: null
-    period: null
-    notes: >
-      Not publicly documented. Contact Reprise support for contractual rate limit details.
-      Reprise recommends batched pulls for data warehouse integrations rather than
-      high-frequency polling.
-    documentationUrl: https://docs.reprise.com/
-
-  - name: HTML Environment Data API - Request Rate
-    description: >
-      Rate limit for the HTML Environment Data API used to inject real-time data into
-      demo environments. Uses token-based authentication; limits are enforced per token.
-    scope: token
-    limitType: requests
-    limit: null
-    period: null
-    notes: >
-      Not publicly documented. Authentication is via generated tokens with portal ID
-      scoping. Contact Reprise support for environment-specific limits.
+  - name: HTML Environment Data API — response size ceiling
+    api: reprise:html-environment-data-api
+    scope: per-request
+    limitType: response-bytes
+    limit: 104857600
+    limit_human: 100MB
+    window: per request
+    burst: null
+    guidance: >
+      Reprise recommends pulling regularly from a restricted time period (for example one day at
+      a time). Because paging is by time window only — start_timestamp / end_timestamp, no cursor
+      or offset — the 100MB ceiling is effectively the page size.
     documentationUrl: https://reprise.zendesk.com/hc/en-us/articles/18940321925659-HTML-Environment-Data-API
 
-  - name: Integration Webhooks - Event Delivery
-    description: >
-      Reprise integrations with Salesforce, HubSpot, and Marketo fire events based on
-      demo engagement actions. Event delivery is near real-time but subject to
-      downstream platform rate limits.
-    scope: integration
-    limitType: events
-    limit: null
-    period: null
-    notes: >
-      Event throughput depends on the connected downstream platform's own rate limits
-      (e.g., Salesforce API limits, HubSpot API limits). Reprise does not impose
-      additional throttling beyond what the integration platform supports.
-    documentationUrl: https://www.reprise.com/platform/integrations
+  - name: Clone Environment Data API — response size ceiling
+    api: reprise:data-api
+    scope: per-request
+    limitType: response-bytes
+    limit: 104857600
+    limit_human: 100MB
+    window: per request
+    burst: null
+    guidance: Same 100MB ceiling and same narrow-window pull guidance as the HTML Environment pipe.
+    documentationUrl: https://reprise.zendesk.com/hc/en-us/articles/28931374746907-Clone-Environment-Data-API
+
+response_headers:
+  published: false
+  checked:
+    - X-RateLimit-Limit
+    - X-RateLimit-Remaining
+    - X-RateLimit-Reset
+    - RateLimit
+    - RateLimit-Policy
+    - Retry-After
+  note: >
+    No rate-limit headers are documented for the Data APIs or the MCP server, and none could be
+    observed anonymously — every Data API call requires a per-portal token and every MCP call
+    returns 401 without an OAuth bearer token. An agent has no runtime throttling signal to read
+    on either surface.
+
+status_on_exhaustion:
+  documented: false
+  note: No 429 contract, no Retry-After semantics published.
+
+undocumented_surfaces:
+  - api: reprise:mcp
+    note: >
+      No published tool-call rate limit, concurrency cap or quota for the MCP server. Reprise
+      notes only that large operations (for example a PII scrub replacing the same name hundreds
+      of times) may be run by the assistant as a background task or flagged for the HTML editor —
+      a capability boundary rather than a rate limit.
+    source: https://reprise.zendesk.com/hc/en-us/articles/51490067736603-Reprise-MCP-Starter-Prompt-Library
+  - api: reprise:html-environment-data-api
+    note: Request-rate limits are not published; contract terms are handled through the CSM.
 
 authentication:
-  - type: token
+  - type: apiKey
+    in: query
+    param: token
     description: >
-      The HTML Environment Data API uses generated authentication tokens scoped to a
-      portal ID. Tokens are provisioned through the Reprise platform admin interface.
-  - type: api-key
+      Both Data APIs authenticate with an opaque token on the query string. The HTML Environment
+      token is created in the portal under Settings → API Management; the Clone Environment token
+      is issued by the customer's CSM.
+  - type: oauth2
     description: >
-      The Data API uses API keys for authentication. Keys are provisioned per account
-      and scoped to the customer's Reprise organization.
+      The MCP server uses OAuth 2.0 authorization code with PKCE; see
+      authentication/reprise-authentication.yml.
 
 statusPage: https://status.reprise.com/
 supportUrl: https://www.reprise.com/contact
+
+x-evidence:
+  fetched: '2026-08-13'

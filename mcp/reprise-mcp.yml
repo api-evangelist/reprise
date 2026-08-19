@@ -1,0 +1,328 @@
+generated: '2026-08-13'
+method: searched
+status: published
+source: https://reprise.zendesk.com/hc/en-us/articles/50081170817691-The-Reprise-MCP-Meet-your-AI-Demo-Engineer
+docs:
+  - https://www.reprise.com/platform/mcp
+  - https://reprise.zendesk.com/hc/en-us/articles/50081170817691-The-Reprise-MCP-Meet-your-AI-Demo-Engineer
+  - https://reprise.zendesk.com/hc/en-us/articles/52126273522971-Reprise-AI-Agent
+  - https://reprise.zendesk.com/hc/en-us/articles/51490067736603-Reprise-MCP-Starter-Prompt-Library
+  - https://github.com/GetReprise/reprise-skills
+
+deployment:
+  mode: remote
+  endpoint: https://app.getreprise.com/mcp/
+  auth: oauth
+  verified: probed
+
+server:
+  name: reprise
+  transport: http
+  url: https://app.getreprise.com/mcp/
+  surface_version: v2
+  tool_count_published: "100+"
+  notes: >
+    Reprise announced GA of the Reprise MCP server on 2026-06-16. It is hosted by Reprise on the
+    same infrastructure as the rest of the platform — the documented egress requirement is a
+    single host, app.getreprise.com:443 over TLS 1.2+. No new sub-processors and no models run
+    inside the MCP; the reasoning happens in the connecting AI client.
+
+endpoints:
+  - name: full-platform
+    url: https://app.getreprise.com/mcp/
+    scope: All Reprise products (tour, injection, clone, platform)
+    probed: 2026-08-13
+    http_status: 401
+    www_authenticate: 'Bearer resource_metadata="https://app.getreprise.com/.well-known/oauth-protected-resource/mcp", error="invalid_token"'
+  - name: product-tours
+    url: https://app.getreprise.com/v2/mcp/tour/
+    scope: tour_* tools only
+    probed: 2026-08-13
+    http_status: 401
+  - name: data-injection
+    url: https://app.getreprise.com/v2/mcp/injection/
+    scope: injection_* tools only
+    probed: 2026-08-13
+    http_status: 401
+  - name: clones
+    url: https://app.getreprise.com/v2/mcp/clone/
+    scope: clone_* tools only
+    probed: 2026-08-13
+    http_status: 401
+
+authentication:
+  scheme: oauth2
+  grant: authorization_code
+  pkce: S256
+  dynamic_client_registration: true
+  consent: per-user consent screen; token scoped to the authorizing user
+  sso: inherits the customer's existing Reprise SSO login
+  read_only_scope: read_only
+  authorization_server_metadata: well-known/reprise-oauth-authorization-server.json
+  protected_resource_metadata: well-known/reprise-oauth-protected-resource.json
+  revocation: >
+    IdP-driven deprovisioning revokes MCP tokens immediately; SCIM/IdP deactivation cascades to
+    access and refresh tokens and the token-verify filter checks user.is_active on every request.
+    The MCP also appears in the user's authorized-apps list and can be revoked there.
+
+introspection:
+  tools_list: gated
+  probed: 2026-08-13
+  result: >
+    POST tools/list returned HTTP 401 invalid_token on all four endpoints with an RFC 9728
+    resource_metadata challenge. The live tool schemas therefore require an authenticated
+    OAuth introspection; the tool inventory below is taken verbatim from Reprise's own
+    published Agent Skills (github.com/GetReprise/reprise-skills) and help-center docs —
+    names and surfaces only, no inputSchema.
+
+tool_surfaces:
+  - prefix: tour_
+    count_published: 61
+    description: Product Tour capture, DOM editing, guides, variables, links, lifecycle
+  - prefix: injection_
+    count_published: 21
+    description: Data Injection datasets, sources, values and adapters
+  - prefix: clone_
+    count_published: null
+    description: Clone Environment snippets, request analysis, debugging and publishing
+  - prefix: platform_
+    count_published: 9
+    description: Cross-product identity, reporting, friction reports and the shared asset library
+
+tools:
+  - name: platform_whoami
+    surface: platform
+    description: Identify the authenticated Reprise user and client
+  - name: platform_summary_report
+    surface: platform
+    description: Post an end-of-session summary report
+  - name: platform_friction_report
+    surface: platform
+    description: File a product friction report into the Reprise backlog
+  - name: platform_friction_status
+    surface: platform
+    description: Check the status of a filed friction report
+  - name: platform_asset_move
+    surface: platform
+    description: Move an asset within the shared asset library
+  - name: tour_create
+    surface: tour
+  - name: tour_get
+    surface: tour
+    description: Canonical discovery call; returns the labeled draft_id / published_id pair
+  - name: tour_list
+    surface: tour
+  - name: tour_search
+    surface: tour
+  - name: tour_metadata
+    surface: tour
+  - name: tour_duplicate
+    surface: tour
+  - name: tour_move
+    surface: tour
+  - name: tour_archive
+    surface: tour
+  - name: tour_restore
+    surface: tour
+  - name: tour_publish
+    surface: tour
+  - name: tour_docs
+    surface: tour
+    description: In-band product documentation lookup for the Tour surface
+  - name: tour_capture_session_start
+    surface: tour
+  - name: tour_capture_session_status
+    surface: tour
+  - name: tour_capture_session_stop
+    surface: tour
+  - name: tour_capture_now
+    surface: tour
+  - name: tour_capture_toolbar_mount
+    surface: tour
+  - name: tour_screen_list
+    surface: tour
+  - name: tour_screen_get
+    surface: tour
+  - name: tour_screen_search
+    surface: tour
+  - name: tour_screen_copy
+    surface: tour
+  - name: tour_screen_node_list
+    surface: tour
+  - name: tour_dom_text_edit
+    surface: tour
+  - name: tour_dom_text_node_list
+    surface: tour
+  - name: tour_dom_attributes_edit
+    surface: tour
+  - name: tour_dom_attribute_node_list
+    surface: tour
+  - name: tour_guide_create
+    surface: tour
+  - name: tour_guide_get
+    surface: tour
+  - name: tour_guide_list
+    surface: tour
+  - name: tour_guide_update
+    surface: tour
+  - name: tour_guide_delete
+    surface: tour
+  - name: tour_variable_create
+    surface: tour
+  - name: tour_variable_list
+    surface: tour
+  - name: tour_variable_update
+    surface: tour
+  - name: tour_variable_delete
+    surface: tour
+  - name: tour_variable_insert
+    surface: tour
+  - name: tour_variable_reference_list
+    surface: tour
+  - name: tour_link_create
+    surface: tour
+  - name: tour_link_list
+    surface: tour
+  - name: tour_link_update
+    surface: tour
+  - name: tour_link_delete
+    surface: tour
+  - name: tour_injection_get
+    surface: tour
+  - name: tour_injection_set
+    surface: tour
+  - name: injection_dataset_create
+    surface: injection
+  - name: injection_dataset_get
+    surface: injection
+  - name: injection_dataset_list
+    surface: injection
+  - name: injection_dataset_update
+    surface: injection
+  - name: injection_dataset_delete
+    surface: injection
+  - name: injection_dataset_duplicate
+    surface: injection
+  - name: injection_dataset_add_sources
+    surface: injection
+  - name: injection_dataset_import
+    surface: injection
+  - name: injection_dataset_export
+    surface: injection
+  - name: injection_dataset_export_status
+    surface: injection
+  - name: injection_dataset_play
+    surface: injection
+  - name: injection_dataset_adapter_set
+    surface: injection
+  - name: injection_dataset_adapter_get
+    surface: injection
+  - name: injection_dataset_adapter_clear
+    surface: injection
+  - name: injection_source_get
+    surface: injection
+  - name: injection_source_list
+    surface: injection
+  - name: injection_source_update
+    surface: injection
+  - name: injection_source_delete
+    surface: injection
+  - name: injection_source_value_get
+    surface: injection
+  - name: injection_source_value_set
+    surface: injection
+  - name: injection_docs
+    surface: injection
+  - name: clone_get
+    surface: clone
+  - name: clone_publish
+    surface: clone
+  - name: clone_path_get
+    surface: clone
+  - name: clone_analytics
+    surface: clone
+  - name: clone_snippet_create
+    surface: clone
+  - name: clone_snippet_update
+    surface: clone
+  - name: clone_note_create
+    surface: clone
+  - name: clone_request_analyze
+    surface: clone
+  - name: clone_request_duplicates
+    surface: clone
+  - name: clone_debug_start
+    surface: clone
+  - name: clone_debug_stop
+    surface: clone
+  - name: clone_debug_errors
+    surface: clone
+  - name: clone_debug_routes
+    surface: clone
+  - name: clone_session_end
+    surface: clone
+  - name: clone_docs
+    surface: clone
+
+tool_inventory_note: >
+  The list above is the subset of the 100+ published tools that Reprise names explicitly in its
+  own Agent Skills and help-center articles. It is not the complete tools/list manifest — that
+  requires an authenticated OAuth introspection against app.getreprise.com. Reprise states new
+  tools ship on a near-weekly cadence and recommends asking the connected assistant
+  "what can the Reprise MCP do?" for the current list.
+
+clients:
+  - name: Claude
+    method: connector directory (Settings → Connectors → Reprise)
+    note: Team/Enterprise workspace Owners may need to enable the connector once
+  - name: ChatGPT
+    method: Developer Mode custom connector, OAuth
+    note: Plus/Pro get read-only tools; Business/Enterprise/Edu get read-write behind an admin toggle
+  - name: Microsoft Copilot
+    method: Copilot Studio → Tools → Add a tool → Model Context Protocol
+    note: OAuth 2.0 with Dynamic Client Registration
+  - name: Gemini
+  - name: Codex
+  - name: Cursor
+
+governance:
+  permissions: >
+    Every action runs as the authenticated user. MCP tools cannot exceed the user's existing
+    Reprise role — custom roles, builder/presenter restrictions, group sharing and folder access
+    all apply. No separate MCP license is required.
+  tenant_isolation: MCP scope check, request-context client binding, ORM client= filter on every backend query
+  prompt_injection: >
+    Tool fields carrying user-captured content (html_screen, html_guide, clone_request,
+    clone_snippet, clone_note) are wrapped in <untrusted-content>...</untrusted-content>
+    delimiters with a data-not-instructions disclaimer.
+  audit_log: >
+    State-changing MCP tool calls append to the customer-visible ClientAuditLog, stamped with
+    mcp_request_id, mcp_client_id and mcp_token_id.
+  rollback: Product Tours carry version history; dataset version history is internal-only
+
+skills:
+  published_by_provider: true
+  repo: https://github.com/GetReprise/reprise-skills
+  index: skills/_index.yml
+
+x-evidence:
+  fetched: '2026-08-13'
+  probes:
+    - url: https://app.getreprise.com/mcp/
+      method: POST tools/list
+      http_status: 401
+    - url: https://app.getreprise.com/v2/mcp/tour/
+      method: POST tools/list
+      http_status: 401
+    - url: https://app.getreprise.com/v2/mcp/injection/
+      method: POST tools/list
+      http_status: 401
+    - url: https://app.getreprise.com/v2/mcp/clone/
+      method: POST tools/list
+      http_status: 401
+    - url: https://app.getreprise.com/.well-known/oauth-protected-resource
+      method: GET
+      http_status: 200
+    - url: https://app.getreprise.com/.well-known/oauth-authorization-server
+      method: GET
+      http_status: 200

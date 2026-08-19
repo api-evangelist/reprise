@@ -1,85 +1,90 @@
+generated: '2026-08-13'
+method: searched
+source: https://www.reprise.com/pricing
+plan_count: 0
 name: Reprise Plans and Pricing
 description: >
-  Reprise uses a custom, quote-based enterprise pricing model with no publicly listed tiers.
-  Pricing is determined by number of users, demo volume, modules selected, and support level
-  required. Annual contracts are standard, with multi-year discount options available.
-  Prospective customers must contact the sales team or request a demo to receive a quote.
+  Reprise publishes a pricing page but no priced tiers. What it states is the shape of the deal:
+  a single annual platform fee plus flexible per-user licenses, with everything on one package —
+  full application cloning, unlimited guided demos, unlimited AI data injection, SSO and RBAC in
+  every package, analytics, and the Salesforce / HubSpot / Marketo / Google Analytics
+  integrations plus custom API support. There is no self-serve checkout, no published list price
+  and no tier ladder; the only call to action is Request Pricing. plan_count is therefore 0 —
+  Reprise publishes zero priced plans.
 specificationVersion: "0.1"
 
-plans:
-  - name: Starter / Base
-    description: >
-      Entry-level access to the Reprise platform for smaller teams or pilots. Includes
-      core demo creation capabilities such as Replay (guided product tours), screen capture,
-      basic analytics, and standard integrations with Salesforce, HubSpot, and Marketo.
-    url: https://www.reprise.com/contact
-    pricingModel: custom
-    billingCycle: annual
-    estimatedCostMin: 10500
-    estimatedCostMax: 28000
-    currency: USD
-    features:
-      - Replay guided product tours
-      - Screen capture demo creation
-      - Basic session analytics
-      - Salesforce integration
-      - HubSpot integration
-      - Marketo integration
-      - Demo sharing and embedding
-      - Standard support
+pricing_page: https://www.reprise.com/pricing
+pricing_model: platform-fee-plus-per-user
+billingCycle: annual
+self_serve: false
+trial: "Try for Free listed in site navigation; entry is https://www.reprise.com/get-started-reprise"
 
-  - name: Professional / Growth
-    description: >
-      Mid-tier enterprise plan with expanded user seats and advanced analytics. Includes
-      Data API access, Google Analytics integration, custom sharing links, team collaboration
-      tools, and data export capabilities for BI tools and data warehouses.
-    url: https://www.reprise.com/contact
-    pricingModel: custom
-    billingCycle: annual
-    estimatedCostMin: 28000
-    estimatedCostMax: 64000
-    currency: USD
-    features:
-      - Everything in Starter
-      - Data API access
-      - Google Analytics integration
-      - Custom sharing and tracking links
-      - Session-level analytics
-      - Click-level engagement data
-      - Team collaboration and demo libraries
-      - Data warehouse export
-      - SSO (Single Sign-On)
-      - SOC 2 Type II compliance
+published_package:
+  name: The Reprise Platform
+  url: https://www.reprise.com/pricing
+  price: null
+  currency: null
+  note: The one package Reprise names on its pricing page. No price is attached to it.
+  included:
+    - Full application cloning — realistic sandbox environments, zero risk to production
+    - Unlimited guided demos with no-code text, image and UI editing
+    - Unlimited AI data injection in cloned or live environments
+    - SOC 2 Type II and ISO 27001 certification
+    - SSO and RBAC in every package
+    - Delivery via a dedicated global CDN
+    - Analytics by user, session and account, with lead and buyer-intent capture
+    - Marketo, HubSpot, Salesforce and Google Analytics integrations
+    - Custom API support
+    - Offline mode, custom themes and styling, hotspots and pulses, multi-chapter demos, embedded video and audio
+    - Reusable variables, demo templates and global find-and-replace
+    - Builder Community, Training Academy and Certification Program
+    - Dedicated account team
 
-  - name: Enterprise
-    description: >
-      Full-featured enterprise plan for large sales and marketing organizations. Includes
-      Replicate (sandbox cloning), Data Injection, Reprise MCP (AI agent integration),
-      advanced analytics, dedicated customer success, SLA guarantees, and full API access
-      for custom integrations and data pipelines.
-    url: https://www.reprise.com/contact
-    pricingModel: custom
-    billingCycle: annual
-    estimatedCostMin: 64000
-    estimatedCostMax: null
-    currency: USD
-    features:
-      - Everything in Professional
-      - Replicate sandbox environments
-      - Data Injection (real-time data customization)
-      - Reprise MCP AI agent integration
-      - Full API access (Data API + HTML Environment Data API)
-      - Advanced session and aggregate analytics
-      - Custom API integrations
-      - Dedicated Customer Success Manager
-      - Enterprise SLA
-      - GDPR compliance
-      - Multi-year discount options
-      - Implementation and onboarding support
-      - Priority support
+licensing:
+  tiers:
+    - tier: Builder
+      description: Can build demos, including through the Reprise MCP
+    - tier: Presenter
+      description: Can launch and present demos built by others; Presenter-level actions only via the MCP
+  note: >
+    Reprise states the MCP requires no new license — it uses the existing Reprise license, and a
+    user with no Reprise license cannot use it at all.
+  source: https://reprise.zendesk.com/hc/en-us/articles/50081170817691-The-Reprise-MCP-Meet-your-AI-Demo-Engineer
 
-notes: >
-  Pricing data sourced from third-party review sites including Supademo, SmartCue,
-  TrustRadius, and Vendr as of June 2026. Reprise does not publicly disclose pricing
-  on their website. The median reported contract value is approximately $28,000/year.
-  Actual pricing requires a direct sales engagement at reprise.com/contact.
+api_entitlement:
+  note: >
+    Both analytics Data APIs are gated on subscription — Reprise's own help centre opens each API
+    article with "If included in your subscription". The Clone Environment token is issued by a
+    CSM rather than self-service.
+  source: https://reprise.zendesk.com/hc/en-us/articles/28931374746907-Clone-Environment-Data-API
+
+third_party_estimates:
+  disclosure: >
+    NOT PUBLISHED BY REPRISE. The bands below were gathered in June 2026 from third-party review
+    and procurement sites (Supademo, SmartCue, TrustRadius, Vendr) in an earlier pass on this
+    repo. They are retained as market context only. They are not Reprise plans, the tier names
+    are not Reprise's names, and they do not count toward plan_count.
+  currency: USD
+  billingCycle: annual
+  median_reported_contract: 28000
+  bands:
+    - label: Entry / pilot
+      estimatedCostMin: 10500
+      estimatedCostMax: 28000
+      typically_includes: Guided product tours, screen capture, basic analytics, Salesforce/HubSpot/Marketo integrations
+    - label: Mid
+      estimatedCostMin: 28000
+      estimatedCostMax: 64000
+      typically_includes: Data API access, Google Analytics integration, session and click-level analytics, SSO
+    - label: Large enterprise
+      estimatedCostMin: 64000
+      estimatedCostMax: null
+      typically_includes: Clone Environments, Data Injection, Reprise MCP, dedicated CSM, multi-year discount
+
+sales_contact: https://www.reprise.com/contact
+statusPage: https://status.reprise.com/
+
+x-evidence:
+  fetched: '2026-08-13'
+  url: https://www.reprise.com/pricing
+  http_status: 200

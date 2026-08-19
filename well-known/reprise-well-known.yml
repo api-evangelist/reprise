@@ -1,0 +1,101 @@
+generated: '2026-08-13'
+method: probed
+source: live GET probes of every Reprise host in apis.yml
+summary:
+  hosts_probed: 4
+  documents_found: 2
+  note: >
+    Two real documents were served, both from app.getreprise.com and both in support of the
+    Reprise MCP server: RFC 8414 OAuth 2.0 Authorization Server Metadata and RFC 9728 OAuth 2.0
+    Protected Resource Metadata. Every /.well-known/ path on the marketing host (www.reprise.com)
+    and the legacy brand host (getreprise.com) returned 404. api.reprise.com and docs.reprise.com
+    do not resolve at all (NXDOMAIN) — both are stale hosts that were carried in this profile
+    before this pass.
+
+hosts:
+  - host: https://app.getreprise.com
+    documents:
+      - path: /.well-known/oauth-authorization-server
+        status: 200
+        content_type: application/json
+        file: reprise-oauth-authorization-server.json
+        spec: RFC 8414
+      - path: /.well-known/oauth-protected-resource
+        status: 200
+        content_type: application/json
+        file: reprise-oauth-protected-resource.json
+        spec: RFC 9728
+      - path: /.well-known/oauth-protected-resource/mcp
+        status: 200
+        content_type: application/json
+        note: per-resource variant, same body as /.well-known/oauth-protected-resource
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+      - path: /llms.txt
+        status: 404
+        note: returns the Reprise app HTML shell, not a document
+  - host: https://www.reprise.com
+    documents:
+      - path: /llms.txt
+        status: 200
+        content_type: text/plain
+        file: ../llms/reprise-llms.txt
+        note: served at the site root rather than under /.well-known/
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+  - host: https://getreprise.com
+    documents:
+      - path: /llms.txt
+        status: 200
+        note: byte-identical to https://www.reprise.com/llms.txt
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+  - host: https://status.reprise.com
+    documents:
+      - path: /api/v2/summary.json
+        status: 200
+        content_type: application/json
+        note: >
+          Atlassian Statuspage public JSON API — not a /.well-known/ document, recorded here
+          because it is the only anonymous machine-readable operational surface Reprise serves.
+          Components include API, Replay Editing Platform and Published Replay Demos.
+
+security_txt:
+  served: false
+  note: No security.txt on any Reprise host; no SecurityTxt pointer is emitted.
+
+agent_card:
+  found: false
+  note: >
+    /.well-known/agent-card.json and the legacy /.well-known/agent.json returned 404 on every
+    host probed. No a2a/ artifact is written and no AgentCard pointer is emitted — an agent card
+    is search-only and must never be authored on the provider's behalf.
+
+x-evidence:
+  fetched: '2026-08-13'

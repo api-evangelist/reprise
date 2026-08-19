@@ -1,0 +1,186 @@
+generated: '2026-08-13'
+method: derived
+source: >
+  Derived from the published response payloads of the two Reprise Data APIs and from the tool /
+  identifier vocabulary in the provider-published Agent Skills. Reprise publishes no OpenAPI, so
+  there are no $ref links to walk — every entity and relationship below is grounded in a field
+  name or ID that appears verbatim in Reprise's own documentation.
+docs:
+  - https://reprise.zendesk.com/hc/en-us/articles/18940321925659-HTML-Environment-Data-API
+  - https://reprise.zendesk.com/hc/en-us/articles/28931374746907-Clone-Environment-Data-API
+  - https://github.com/GetReprise/reprise-skills
+
+entities:
+  - name: Client
+    id_field: client_id
+    description: The Reprise tenant (also called the Portal). Every record is tenant-scoped.
+    source: HTML Environment + Clone Environment Data API payloads
+
+  - name: Tour
+    aliases: [Replay, HTML Environment, Product Tour]
+    id_fields: [draft_replay_id, published_replay_id, draft_id, published_id]
+    description: >
+      A linear walkthrough built from captured screens. Exists in two states with distinct IDs —
+      the always-present authoring draft and the published snapshot created by tour_publish.
+    fields: [draft_replay_title, published_replay_title, published_replay_created_at]
+
+  - name: Screen
+    aliases: [Snapshot]
+    id_field: snapshot_id
+    description: One captured screen inside a tour.
+    fields: [snapshot_title]
+
+  - name: Guide
+    id_field: guide_id
+    description: A tooltip or callout attached to an element on a screen.
+    fields: [guide_step_number, guide_text, guide_trigger]
+    enums:
+      guide_trigger: [sequential, on hover]
+
+  - name: Button
+    description: An interactive control rendered by a guide; not separately identified.
+    fields: [button_text, button_action]
+
+  - name: Variable
+    description: >
+      A reusable token inserted into tour content for personalization (prospect name, company,
+      colours). Managed by tour_variable_* tools; not present in the analytics payload.
+
+  - name: PublishedReplayLink
+    aliases: [Link]
+    id_field: link_id
+    description: >
+      A shareable link to a published tour. The slug in https://<host>/launch/<slug>/ is this
+      entity's ID and is a third ID kind, distinct from draft_id and published_id.
+    fields:
+      - link_title
+      - link_description
+      - link_url
+      - link_is_active
+      - link_created_at
+      - link_deleted_at
+      - link_is_default
+      - link_show_welcome
+      - link_welcome_title
+      - link_welcome_note
+      - link_viewer_email_req
+      - link_viewer_password_req
+
+  - name: Session
+    id_field: session_id
+    description: One viewer's visit to a demo, started through a link.
+    fields: [session_created_at, visitor_name, visitor_email, visitor_company]
+
+  - name: Activity
+    id_field: activity_id
+    description: >
+      A single click-level event inside a session — the grain of the HTML Environment Data API.
+    fields: [activity_type, create_at]
+
+  - name: Clone
+    aliases: [Replicate, Clone Environment]
+    id_field: clone_id
+    description: >
+      A self-contained clone of a customer application, captured down to the code and served as
+      an interactive sandbox.
+    fields: [demo_title, demo_published_date, shard_name]
+
+  - name: CloneSnippet
+    description: Custom JS/CSS injected into a clone; created and updated via clone_snippet_* tools.
+
+  - name: CloneRequest
+    description: A captured network request in a clone, analyzed via clone_request_analyze.
+
+  - name: Dataset
+    id_field: dataset_id
+    description: >
+      A Data Injection dataset — the set of values swapped into a live application's API
+      responses. Managed in Data Studio and by injection_dataset_* tools.
+
+  - name: Source
+    description: >
+      A single request/response mapping inside a dataset (Dataset → Source → Value), carrying a
+      request_filter, response_template and optional parse/serialize functions.
+    fields: [request_filter, response_template, response_template_raw, parse_function, serialize_function]
+
+  - name: Adapter
+    description: A per-dataset transform set by injection_dataset_adapter_set.
+
+  - name: Folder
+    description: Shared asset library container; managed by platform_folder_* and platform_asset_move.
+
+relationships:
+  - from: Client
+    to: Tour
+    type: has_many
+    via: client_id
+  - from: Client
+    to: Clone
+    type: has_many
+    via: client_id
+  - from: Tour
+    to: Screen
+    type: has_many
+    via: snapshot_id
+  - from: Screen
+    to: Guide
+    type: has_many
+    via: guide_id
+  - from: Guide
+    to: Button
+    type: has_many
+    via: button_text
+  - from: Tour
+    to: PublishedReplayLink
+    type: has_many
+    via: link_id
+    note: links exist only against a published tour
+  - from: Tour
+    to: Tour
+    type: has_one
+    via: draft_replay_id -> published_replay_id
+    note: the draft/published pair is the same tour in two states, resolved by tour_get
+  - from: PublishedReplayLink
+    to: Session
+    type: has_many
+    via: link_id
+  - from: Session
+    to: Activity
+    type: has_many
+    via: session_id
+  - from: Activity
+    to: Screen
+    type: belongs_to
+    via: snapshot_id
+  - from: Activity
+    to: Guide
+    type: belongs_to
+    via: guide_id
+  - from: Clone
+    to: CloneSnippet
+    type: has_many
+    via: clone_id
+  - from: Clone
+    to: CloneRequest
+    type: has_many
+    via: clone_id
+  - from: Dataset
+    to: Source
+    type: has_many
+    via: dataset_id
+  - from: Dataset
+    to: Adapter
+    type: has_one
+    via: dataset_id
+  - from: Tour
+    to: Dataset
+    type: has_one
+    via: tour_injection_set
+    note: a tour can be bound to an injection dataset
+
+grain:
+  html_environment_data_api: one row per Activity (click-level)
+  clone_environment_data_api: one row per Session (demo_title + session_date + viewer)
+
+x-evidence:
+  fetched: '2026-08-13'

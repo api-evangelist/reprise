@@ -1,0 +1,66 @@
+# Reprise: The Enterprise Demo Creation Platform
+
+> Reprise is the demo creation platform enterprise sales and marketing teams trust to build no-code, interactive product demos that win more deals. The platform combines AI-powered demo creation (via the Reprise MCP), data injection, product tours, and full application clones — with enterprise-grade security (SOC 2 Type II, ISO 27001), SSO and RBAC in every package.
+
+The XML sitemap of this website can be found at https://www.reprise.com/sitemap.xml
+
+## Platform
+- [Platform Overview](https://www.reprise.com/platform): One demo platform for every use case — capture, customize, and share interactive demos at enterprise scale.
+- [Reprise MCP](https://www.reprise.com/platform/mcp): 100+ demo-authoring tools for AI agents. Build and edit demos end to end from your preferred LLM, using customer context from your CRM, call transcripts, and notes.
+- [Data Injection](https://www.reprise.com/platform/reprise-reveal): Overlay and customize your live application in real time — swap data, charts, and branding for personalized demos.
+- [Product Tours](https://www.reprise.com/platform/reprise-replay): Capture the front-end of any application to build pixel-perfect, unbreakable interactive demos.
+- [Clone Environments](https://www.reprise.com/platform/reprise-replicate): Self-contained clones of your app for secure, resettable, fully interactive demos and sandboxes.
+- [Security & Compliance](https://www.reprise.com/platform/enterprise-scale-and-security): SOC 2 Type II, ISO/IEC 27001, GDPR/CCPA compliance, RBAC, and demo-level governance.
+- [Analytics](https://www.reprise.com/platform/analytics): Track demo engagement by user, session, or account; capture leads and buyer intent.
+- [Integrations](https://www.reprise.com/platform/integrations): Salesforce, HubSpot, Marketo, Google Analytics, Seismic, Highspot, and custom API.
+- [Shared Data](https://www.reprise.com/platform/data-studio): Reusable datasets shared across demos and teams.
+
+## Solutions
+- [Solutions Overview](https://www.reprise.com/solutions): The enterprise demo platform for every go-to-market team.
+- [Embeddable Demos](https://www.reprise.com/solutions/embeddable-demos): Interactive product tours and leave-behinds for websites, landing pages, and email.
+- [Live Demos](https://www.reprise.com/solutions/live-demo): Stable, dedicated live demo environments for sales calls.
+- [Sandbox Environments](https://www.reprise.com/solutions/sandbox-environments): Hands-on, resettable product sandboxes for prospects.
+- [Presales](https://www.reprise.com/solutions/presales): Best-practice demos at scale for solutions engineering teams.
+- [Sales](https://www.reprise.com/solutions/sales-leaders): Winning demo environments for sales teams.
+- [Marketing](https://www.reprise.com/solutions/marketing-leaders): Product stories that resonate, managed in a single demo library.
+
+## Company
+- [Why Reprise](https://www.reprise.com/why-reprise): Why enterprises choose Reprise over other demo platforms.
+- [About](https://www.reprise.com/about): Company story, leadership team, and investors.
+- [Pricing](https://www.reprise.com/pricing): Platform fee plus flexible per-user licenses.
+- [Customers](https://www.reprise.com/customer-demos): Customer demos and stories.
+- [Demo Library](https://www.reprise.com/demo-library): See Reprise demos in action.
+- [Careers](https://www.reprise.com/careers)
+- [Newsroom](https://www.reprise.com/resources/newsroom)
+- [Sub-Processors](https://www.reprise.com/subprocessors)
+
+## Blog Posts
+- [Blog](https://www.reprise.com/resources/blog): Insights on demos, presales, and go-to-market.
+- [The Science of the Demo: 7 Data-Backed Practices That Separate Demos That Close From Demos That Don't](https://www.reprise.com/resources/blog/the-science-of-the-demo): Survey of 300+ sales and presales professionals on what makes demos win.
+- [The Presales Leader's Guide to Measuring SE Impact](https://www.reprise.com/resources/blog/the-presales-leaders-guide-to-measuring-se-impact)
+- [AI Can Sell Products, But Harder to Deliver Trust](https://www.reprise.com/resources/blog/the-venture-lens-ai-can-sell-products)
+- [Solutions Consultants Belong in the Driver's Seat](https://www.reprise.com/resources/blog/solutions-consultant)
+- [The Ultimate Guide to Demo Environments](https://www.reprise.com/resources/blog/demo-environments-guide)
+
+## Guides
+- [Guides](https://www.reprise.com/resources/guides)
+- [The State of Demos 2026 Report](https://www.reprise.com/resources/guides/the-state-of-demos-2026-report): Original research on demo trends shaping 2026.
+- [The Presales Tool Kit: Selection & Internal Buy-In Checklist](https://www.reprise.com/resources/guides/the-presales-tool-kit-selection-internal-buy-in-checklist)
+- [The Solutions Engineer's Guide to Strategic Networking](https://www.reprise.com/resources/guides/the-solutions-engineers-guide-to-strategic-networking)
+- [Solution Engineering Metrics Guide for Frontline Leaders](https://www.reprise.com/resources/guides/solution-engineering-metrics-guide)
+- [The 2025 Solutions Engineering Career Guide](https://www.reprise.com/resources/guides/the-2025-solutions-engineering-career-guide)
+
+## Case Studies
+- [How Litera Built a Demo Program That Moves as Fast as They Do](https://www.reprise.com/customer-stories/litera)
+- [How iCIMS Scaled Demo Excellence Across the Entire Buyer Journey](https://www.reprise.com/customer-stories/icims)
+- [How PortSwigger Scaled Globally and Streamlined Technical Sales with Reprise](https://www.reprise.com/customer-stories/portswigger)
+- [Bench's Demo Program Contributes to 17% Higher Win Rate](https://www.reprise.com/customer-stories/benchs-demo-program-contributes-to-17-higher-win-rate): Bench's demo program with Reprise contributed to a 17% higher win rate.
+- [Hireology Product Tours Accelerate Sales Cycles by 50%](https://www.reprise.com/customer-stories/hireology): Hireology used Reprise product tours to accelerate sales cycles by 50%.
+
+## Events
+- [Webinars & Events](https://www.reprise.com/resources/events)
+- [The State of Demos 2026: Trends Shaping the Year Ahead](https://www.reprise.com/event/the-state-of-demos-2026)
+- [Practical AI: Moving from Time Savings to Strategic Presales Outcomes](https://www.reprise.com/event/practical-ai)
+- [Measuring Impact: A Presales Scorecard for Tech and AI Success](https://www.reprise.com/event/measuring-impact)
+- [Solution Heroes: Episode 6 – Rachel Tilghman](https://www.reprise.com/event/solution-heroes-episode-6-rachel-tilghman)
+- [Solution Heroes: Episode 7 – Yuji Higashi](https://www.reprise.com/event/solution-heroes-episode-7-yuji-higashi)

@@ -1,0 +1,106 @@
+generated: '2026-08-13'
+method: searched
+source: >
+  Reprise help centre and marketing pages, plus live probes of the /.well-known/ OAuth metadata
+  documents on app.getreprise.com
+standards:
+  - id: mcp
+    name: Model Context Protocol
+    conforms: true
+    evidence: >
+      Remote MCP server GA since 2026-06-16 at https://app.getreprise.com/mcp/ plus three
+      product-scoped endpoints. POST tools/list returns a spec-shaped 401 invalid_token with an
+      RFC 9728 resource_metadata challenge (probed 2026-08-13).
+  - id: oauth2
+    name: OAuth 2.0
+    conforms: true
+    evidence: >
+      Authorization code grant with refresh tokens; authorization, token and registration
+      endpoints published in the authorization-server metadata document.
+  - id: rfc7636-pkce
+    name: PKCE (RFC 7636)
+    conforms: true
+    evidence: code_challenge_methods_supported = ["S256"] in the authorization-server metadata
+  - id: rfc8414-as-metadata
+    name: OAuth 2.0 Authorization Server Metadata (RFC 8414)
+    conforms: true
+    evidence: https://app.getreprise.com/.well-known/oauth-authorization-server returns 200 application/json
+  - id: rfc9728-protected-resource-metadata
+    name: OAuth 2.0 Protected Resource Metadata (RFC 9728)
+    conforms: true
+    evidence: >
+      https://app.getreprise.com/.well-known/oauth-protected-resource returns 200 with
+      resource/authorization_servers/bearer_methods_supported; the 401 on /mcp/ carries a
+      matching WWW-Authenticate resource_metadata challenge.
+  - id: rfc7591-dynamic-client-registration
+    name: OAuth 2.0 Dynamic Client Registration (RFC 7591)
+    conforms: true
+    evidence: >
+      registration_endpoint published at https://app.getreprise.com/r/mcp/oauth/register; Reprise
+      documents DCR as the recommended path for Microsoft Copilot Studio.
+  - id: saml2
+    name: SAML 2.0
+    conforms: true
+    evidence: >
+      Service-provider-initiated SSO documented with Entity ID https://app.getreprise.com/ and
+      ACS https://app.getreprise.com/auth/complete/saml/
+  - id: scim
+    name: SCIM provisioning
+    conforms: partial
+    evidence: >
+      Reprise states SCIM/IdP deactivation cascades to revoke MCP access and refresh tokens, but
+      publishes no SCIM 2.0 endpoint or resource schema.
+  - id: llmstxt
+    name: llms.txt
+    conforms: true
+    evidence: https://www.reprise.com/llms.txt returns 200 text/plain (saved to llms/reprise-llms.txt)
+  - id: openapi
+    name: OpenAPI
+    conforms: false
+    evidence: >
+      No OpenAPI or Swagger document found on any Reprise host. /openapi.json, /openapi.yaml,
+      /swagger.json, /v1/openapi.json and /api-docs all 404 on www.reprise.com and
+      app.getreprise.com; api.reprise.com and docs.reprise.com do not resolve.
+  - id: asyncapi
+    name: AsyncAPI
+    conforms: false
+    evidence: No event, streaming or webhook specification published; Reprise ships no outbound webhooks.
+  - id: rfc9457-problem-details
+    name: Problem Details for HTTP APIs (RFC 9457)
+    conforms: false
+    evidence: >
+      Errors are returned as a flat JSON object with error and error_description on the OAuth and
+      MCP surfaces, and as MCP-level string error codes (wrong_id_kind, tour_not_found) at the
+      tool boundary. No application/problem+json.
+  - id: a2a
+    name: A2A Agent Card
+    conforms: false
+    evidence: /.well-known/agent-card.json and /.well-known/agent.json returned 404 on every Reprise host
+  - id: statuspage
+    name: Atlassian Statuspage public API
+    conforms: true
+    evidence: https://status.reprise.com/api/v2/summary.json returns 200 application/json
+
+compliance:
+  published: true
+  url: https://www.reprise.com/platform/enterprise-scale-and-security
+  trust_center: https://trust.reprise.com/
+  certifications:
+    - name: SOC 2 Type 2
+      source: https://www.reprise.com/platform/enterprise-scale-and-security
+    - name: ISO/IEC 27001:2022
+      source: https://www.reprise.com/platform/enterprise-scale-and-security
+  regimes:
+    - name: GDPR
+      source: https://www.reprise.com/llms.txt
+    - name: CCPA
+      source: https://www.reprise.com/llms.txt
+  sub_processors: https://www.reprise.com/subprocessors
+  dpa: https://www.reprise.com/dpa
+  scope_caveat: >
+    Reprise states the MCP component is new and not yet inside the most recent audit scope,
+    though it runs in the same in-scope environment and inherits the same operational controls;
+    inclusion is planned for the next audit cycle.
+
+x-evidence:
+  fetched: '2026-08-13'

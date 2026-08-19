@@ -1,0 +1,51 @@
+generated: '2026-08-13'
+method: searched
+source: https://reprise.zendesk.com/hc/en-us/articles/50081170817691-The-Reprise-MCP-Meet-your-AI-Demo-Engineer
+docs: https://reprise.zendesk.com/hc/en-us/articles/50081170817691-The-Reprise-MCP-Meet-your-AI-Demo-Engineer
+note: >
+  Reprise publishes no OpenAPI and its RFC 8414 authorization-server metadata does not advertise
+  a scopes_supported array, so there is no machine-readable scope registry to derive from. The
+  one scope Reprise documents by name is read_only. Effective authorization is not
+  scope-carried: every MCP token inherits the authorizing user's existing Reprise RBAC role, and
+  the MCP boundary can only narrow that, never widen it.
+
+schemes:
+  - name: MCPOAuth2
+    source: well-known/reprise-oauth-authorization-server.json
+    issuer: https://app.getreprise.com
+    flows:
+      - flow: authorizationCode
+        authorizationUrl: https://app.getreprise.com/r/mcp/oauth/authorize
+        tokenUrl: https://app.getreprise.com/r/mcp/oauth/token
+    scopes_supported_advertised: false
+
+scopes:
+  - scope: read_only
+    description: >
+      Requested at token issue time (scope=read_only) to give an AI assistant read access to
+      Reprise content while blocking every write. Writes are rejected at the MCP boundary rather
+      than in the backend.
+    flows: [authorizationCode]
+    sources:
+      - https://reprise.zendesk.com/hc/en-us/articles/50081170817691-The-Reprise-MCP-Meet-your-AI-Demo-Engineer
+
+implicit_scoping:
+  - mechanism: endpoint selection
+    description: >
+      Product-scoped MCP endpoints act as a coarse capability scope. /v2/mcp/tour/ exposes only
+      tour_* tools, /v2/mcp/injection/ only injection_*, /v2/mcp/clone/ only clone_*, while
+      /mcp/ exposes the full catalog. Reprise recommends the scoped endpoints for AI clients
+      that silently drop tools past a cap.
+  - mechanism: RBAC inheritance
+    description: >
+      The token carries the user's Reprise role. Custom roles, builder vs presenter licensing,
+      group sharing and folder-level permissions all apply unchanged to MCP calls.
+  - mechanism: tenant isolation
+    description: >
+      Enforced in three layers per Reprise — an MCP scope check, request-context client binding,
+      and an ORM client= filter on every backend query.
+
+x-evidence:
+  fetched: '2026-08-13'
+  url: https://app.getreprise.com/.well-known/oauth-authorization-server
+  http_status: 200

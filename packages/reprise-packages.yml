@@ -1,0 +1,123 @@
+generated: '2026-08-13'
+method: searched
+source: >
+  npm registry search, PyPI, GitHub org GetReprise, Chrome Web Store update service, and the
+  Reprise help centre
+summary:
+  official_client_libraries: 0
+  official_distributables: 2
+  note: >
+    Reprise ships NO first-party client SDK in any language on any package registry. Searches of
+    npm (reprise, getreprise, @reprise), PyPI and the GetReprise GitHub organization (2 public
+    repos) return nothing first-party. The npm packages named "reprise" and "@reprise/core" and
+    the PyPI package "reprise" belong to unrelated projects and are recorded below as
+    disambiguation, not as Reprise artifacts. No SDKs pointer is emitted in apis.yml, because
+    there is no client library to point at.
+
+packages:
+  - name: Reprise Replicate (Clone Environment capture extension)
+    language: javascript
+    registry: chrome-web-store
+    id: lnfdgbcchgafpkhdifedffopdacbncaj
+    url: https://chromewebstore.google.com/detail/reprise-replicate/lnfdgbcchgafpkhdifedffopdacbncaj
+    version: 1.0.9
+    published: null
+    published_note: >
+      Version read from the Chrome extension update service
+      (clients2.google.com/service/update2/crx) on 2026-08-13. The Chrome Web Store publishes no
+      machine-readable release date for an extension, so `published` is null — checked, not
+      available, rather than not checked.
+    install: Install from the Chrome Web Store in real Google Chrome
+    official: true
+    kind: browser-extension
+    note: >
+      Required to capture a Clone Environment. Reprise's own Agent Skills warn that the extension
+      will not load in a bundled or automation browser — real Chrome is a hard prerequisite.
+    docs: https://reprise.zendesk.com/hc/en-us/articles/41113098223131-Using-the-Clone-Environment-Capture-Extension
+
+  - name: reprise-mcp-skills
+    language: markdown
+    registry: github
+    url: https://github.com/GetReprise/reprise-skills
+    install: |
+      /plugin marketplace add GetReprise/reprise-skills
+      /plugin install reprise-mcp-skills@reprise-skills
+    version: null
+    published: '2026-07-25'
+    published_note: >
+      Distributed as a Claude Code plugin marketplace from a GitHub repo rather than a package
+      registry, so there is no version metadata endpoint to query. `version` is null — the
+      individual SKILL.md files carry their own frontmatter versions (router 0.1.1, tour-id-model
+      0.1.0) and the repo tags releases. `published` is the repo's last push date.
+    official: true
+    kind: agent-skills-plugin
+    note: >
+      Seven workflow skills for the Reprise MCP, published by Reprise. Saved verbatim to skills/.
+
+  - name: Reprise Builder extensions (HTML capture, Data Injection, Presenter)
+    language: javascript
+    registry: none
+    url: https://reprise.zendesk.com/hc/en-us/articles/53017384198427-The-Reprise-Extension
+    version: null
+    published: null
+    published_note: >
+      Distributed by an install link inside the Reprise platform rather than through a public
+      store listing, so there is no registry or CDN metadata endpoint to read a version from. A
+      customer installing it cannot tell what version they are getting either — that is the
+      finding, not a gap in this probe.
+    install: Install via the link inside your Reprise platform, then pin the extension
+    official: true
+    kind: browser-extension
+    note: >
+      Reprise has consolidated its browser tooling into a single Reprise Extension covering
+      library, launch, Product Tour capture and Data Injection, with a separate Presenter
+      Extension for Presenter-tier users who do not build.
+
+not_first_party:
+  - name: reprise
+    registry: npm
+    version: 1.1.0
+    published: '2018-10-05'
+    owner: splayd
+    reason: Hot-reloading for Babel-compiled Node.js processes — unrelated project
+  - name: '@reprise/core'
+    registry: npm
+    version: 0.0.1
+    published: '2022-06-22'
+    reason: Empty placeholder package, no description, not published by Reprise
+  - name: reprise
+    registry: pypi
+    version: 1.0.0
+    owner: Fedor Scholz / CognitiveModeling
+    reason: REtrospective and PRospective Inference SchEme — an academic ML package
+  - name: reprise-api-sdk
+    registry: npm
+    version: 0.1.0
+    published: '2026-07-12'
+    reason: TypeScript SDK for the Reprise Lending Solana program — a different company
+  - name: rlm
+    registry: npm
+    reason: Parses Reprise License Manager files — Reprise Software Inc., a different company
+
+github_org:
+  url: https://github.com/GetReprise
+  public_repos: 2
+  repos:
+    - name: reprise-skills
+      pushed_at: '2026-07-25'
+      description: Workflow skills for the Reprise MCP
+    - name: slate
+      pushed_at: '2026-05-08'
+      description: Fork of the Slate static API documentation generator; contains no Reprise API content
+
+x-evidence:
+  fetched: '2026-08-13'
+  probes:
+    - url: https://registry.npmjs.org/-/v1/search?text=reprise
+      http_status: 200
+    - url: https://pypi.org/pypi/reprise/json
+      http_status: 200
+    - url: https://chromewebstore.google.com/detail/reprise-replicate/lnfdgbcchgafpkhdifedffopdacbncaj
+      http_status: 200
+    - url: https://api.github.com/repos/GetReprise/reprise-skills
+      http_status: 200

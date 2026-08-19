@@ -1,0 +1,145 @@
+generated: '2026-08-13'
+method: searched
+source: >
+  Reprise help centre (Data API articles, MCP articles) and the provider-published Agent Skills
+  at https://github.com/GetReprise/reprise-skills
+note: >
+  Reprise has two very different runtime contracts and they share almost no conventions. The MCP
+  server is a JSON-RPC tool surface behind OAuth; the two Data APIs are single-pipe analytics
+  reads behind a query-string token. Both are described below and kept separate rather than
+  averaged into one profile.
+
+surfaces:
+  - id: mcp
+    name: Reprise MCP server
+    protocol: JSON-RPC 2.0 over HTTP (Model Context Protocol)
+    base: https://app.getreprise.com/mcp/
+  - id: data-api
+    name: Reprise Data APIs
+    protocol: HTTP GET returning JSON
+    base: https://api.us-east.tinybird.co/v0/pipes/
+
+authentication:
+  mcp: OAuth 2.0 authorization code + PKCE S256, Bearer in the Authorization header
+  data_api: opaque token as a query-string parameter (token=)
+  detail: authentication/reprise-authentication.yml
+
+idempotency:
+  supported: false
+  note: >
+    Reprise documents no idempotency key, no request-replay contract and no
+    Idempotency-Key header on either surface. MCP write tools are naturally non-idempotent —
+    calling tour_guide_create twice creates two guides. The recovery mechanism Reprise does
+    document is version history on Product Tours, which is undo rather than idempotency.
+    No Idempotency pointer is emitted.
+
+pagination:
+  mcp: not documented
+  data_api:
+    style: time-window
+    params: [start_timestamp, end_timestamp]
+    detail: >
+      There is no cursor or offset. Callers page by narrowing the time window. start_timestamp is
+      required on the Clone Environment pipe and end_timestamp is optional — omit it to pull
+      through the current time. Timestamps are UTC and accept either a bare date (2022-07-01) or
+      a URL-encoded date-time (2022-07-01%2000:00:00).
+    size_ceiling: 100MB per response
+    guidance: >
+      Reprise explicitly recommends pulling on a schedule over a restricted window (for example
+      one day at a time) rather than issuing a single wide backfill, because the 100MB ceiling is
+      the only paging mechanism.
+
+field_selection:
+  data_api:
+    param: visitor_company
+    values: [1]
+    detail: >
+      visitor_company=1 adds the viewer-entered company name from the welcome page to both the
+      meta and data sections of the HTML Environment response. This is the only documented
+      opt-in field.
+
+response_envelope:
+  data_api:
+    shape:
+      meta: array of {name, type} column descriptors
+      data: array of records
+      rows: integer row count
+      statistics: '{elapsed, rows_read, bytes_read}'
+    types: ClickHouse-style type names (String, Nullable(String), DateTime, DateTime64(3))
+    note: >
+      The envelope is a Tinybird pipe response — Reprise serves demo analytics through a managed
+      Tinybird backend and publishes the host verbatim in its Clone Environment Data API article.
+  mcp:
+    shape: >
+      Every tour_* success response carries both draft_id and published_id at the top level,
+      with published_id null when the tour has never been published.
+
+identifiers:
+  tour:
+    kinds:
+      - name: draft_id
+        meaning: the authoring tour; always present
+      - name: published_id
+        meaning: the snapshot served at preview URLs; exists only after tour_publish
+      - name: PublishedReplayLink.id
+        meaning: the <slug> in https://<host>/launch/<slug>/ — a third kind, neither draft nor published
+    rule: >
+      Tools accept only the kind(s) they operate on and there is NO auto-flip. tour_get(...) is
+      the canonical resolver: pass whichever ID you hold under either argument and the response
+      returns the labeled pair.
+    wire_format: >
+      The backend still stores replay_id with demo_kind="replay_draft|replay_published"; the v2
+      surface translates to draft_id / published_id at the tool boundary.
+  data_api:
+    ids: [client_id, activity_id, session_id, snapshot_id, guide_id, link_id, published_replay_id, draft_replay_id]
+    prefixes: none published
+
+versioning:
+  style: uri-path (MCP, /v2/)
+  detail: lifecycle/reprise-lifecycle.yml
+
+errors:
+  envelope: '{"error": "<code>", "error_description": "<sentence>"}'
+  tool_boundary: string error code plus corrective hint
+  catalog: errors/reprise-error-codes.yml
+
+rate_limiting:
+  headers_published: false
+  detail: rate-limits/reprise-rate-limits.yml
+
+tracing:
+  mcp:
+    ids: [mcp_request_id, mcp_client_id, mcp_token_id]
+    detail: >
+      State-changing MCP tool calls append to the customer-visible ClientAuditLog stamped with
+      all three identifiers. This is the closest thing Reprise publishes to a request-id
+      convention; the identifiers appear in the audit log rather than in a response header.
+
+agent_safety:
+  untrusted_content_delimiters:
+    fields: [html_screen, html_guide, clone_request, clone_snippet, clone_note]
+    convention: >
+      Tool fields that carry user-captured content are wrapped in
+      <untrusted-content>...</untrusted-content> with a data-not-instructions disclaimer, giving
+      the agent runtime a stable contract for prompt-injection defence. This is a real
+      agent-facing convention and is unusual enough to be worth naming.
+  in_band_docs:
+    tools: [tour_docs, injection_docs, clone_docs]
+    convention: >
+      Product documentation is itself a tool call — an agent fetches guidance with
+      tour_docs(slug='tour') rather than reading a web page. Reprise treats the in-band docs as
+      canonical over the help centre for tool-level detail.
+  feedback_channel:
+    tool: platform_friction_report
+    convention: Structured friction reports file straight into the Reprise product backlog from the chat
+
+cross_links:
+  authentication: authentication/reprise-authentication.yml
+  scopes: scopes/reprise-scopes.yml
+  errors: errors/reprise-error-codes.yml
+  lifecycle: lifecycle/reprise-lifecycle.yml
+  rate_limits: rate-limits/reprise-rate-limits.yml
+  data_model: data-model/reprise-data-model.yml
+
+x-evidence:
+  fetched: '2026-08-13'

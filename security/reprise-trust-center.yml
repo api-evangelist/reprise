@@ -1,12 +1,33 @@
-generated: '2026-07-11'
+generated: '2026-08-13'
 method: searched
 probe: true
 source: https://trust.reprise.com/
 url: https://trust.reprise.com/
 certifications:
-- SOC 2
+- SOC 2 Type 2
+- ISO/IEC 27001:2022
+regimes:
+- GDPR
+- CCPA
+compliance_page: https://www.reprise.com/platform/enterprise-scale-and-security
+sub_processors: https://www.reprise.com/subprocessors
+dpa: https://www.reprise.com/dpa
+scope_caveat: >
+  Reprise states the Reprise MCP component is new and not yet inside the most recent audit
+  scope, though it runs in the same in-scope environment and inherits the same operational
+  controls; inclusion is planned for the next audit cycle.
 evidence:
 - source: https://trust.reprise.com/
   keywords:
   - soc 2
   - trust center
+- source: https://www.reprise.com/platform/enterprise-scale-and-security
+  keywords:
+  - soc 2 type 2
+  - iso/iec 27001:2022
+  - rbac
+- source: https://www.reprise.com/llms.txt
+  keywords:
+  - soc 2 type ii
+  - iso 27001
+  - gdpr/ccpa

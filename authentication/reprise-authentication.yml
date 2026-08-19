@@ -1,0 +1,112 @@
+generated: '2026-08-13'
+method: searched
+source: https://reprise.zendesk.com/hc/en-us/articles/50081170817691-The-Reprise-MCP-Meet-your-AI-Demo-Engineer
+docs:
+  - https://reprise.zendesk.com/hc/en-us/articles/50081170817691-The-Reprise-MCP-Meet-your-AI-Demo-Engineer
+  - https://reprise.zendesk.com/hc/en-us/articles/18940321925659-HTML-Environment-Data-API
+  - https://reprise.zendesk.com/hc/en-us/articles/28931374746907-Clone-Environment-Data-API
+  - https://reprise.zendesk.com/hc/en-us/articles/26132466512155-SAML-SSO
+note: >
+  Reprise publishes no OpenAPI, so this profile is searched from the provider's own help centre
+  and from two live /.well-known/ documents on app.getreprise.com rather than derived from
+  securitySchemes. Reprise runs two distinct auth models: OAuth 2.0 authorization code with PKCE
+  for the MCP server, and opaque per-portal tokens on a query string for the two analytics
+  Data APIs.
+
+summary:
+  types: [oauth2, apiKey]
+  api_key_in: [query]
+  oauth2_flows: [authorizationCode]
+  human_sso: [SAML 2.0, Okta]
+
+schemes:
+  - name: MCPOAuth2
+    type: oauth2
+    api: reprise:mcp
+    flows:
+      - flow: authorizationCode
+        authorizationUrl: https://app.getreprise.com/r/mcp/oauth/authorize
+        tokenUrl: https://app.getreprise.com/r/mcp/oauth/token
+        registrationUrl: https://app.getreprise.com/r/mcp/oauth/register
+    issuer: https://app.getreprise.com
+    resource: https://app.getreprise.com/mcp
+    pkce: required
+    code_challenge_methods_supported: [S256]
+    grant_types_supported: [authorization_code, refresh_token]
+    response_types_supported: [code]
+    token_endpoint_auth_methods_supported: [none]
+    dynamic_client_registration: true
+    bearer_methods_supported: [header]
+    consent: explicit per-user consent screen
+    identity: >
+      Tokens are scoped to the authorizing user and inherit that user's existing Reprise role.
+      The MCP cannot perform any action the user could not already perform in the Reprise UI.
+      No new license is required; a Builder license builds, a Presenter license presents.
+    revocation: >
+      IdP-driven deprovisioning revokes tokens immediately. SCIM/IdP deactivation cascades to
+      access and refresh tokens, and the token-verify filter checks user.is_active on every
+      request, so there is no expiry-only window. The connection is also listed in the user's
+      authorized-apps view and revocable there.
+    storage: No tokens or credentials are stored in the AI client or shared with third parties
+    sources:
+      - well-known/reprise-oauth-authorization-server.json
+      - well-known/reprise-oauth-protected-resource.json
+      - https://reprise.zendesk.com/hc/en-us/articles/50081170817691-The-Reprise-MCP-Meet-your-AI-Demo-Engineer
+
+  - name: DataApiToken
+    type: apiKey
+    in: query
+    name_param: token
+    api: [reprise:data-api, reprise:html-environment-data-api]
+    description: >
+      Both analytics Data APIs authenticate with an opaque token appended to the endpoint URL as
+      a token query parameter. For the HTML Environment Data API the customer creates the token
+      themselves in the Reprise portal under Settings → API Management, then copies the complete
+      endpoint (including portal ID and token) from the demo's three-dot menu via Copy API
+      Endpoint. For the Clone Environment Data API the token is issued by the customer's Reprise
+      CSM rather than self-service.
+    provisioning:
+      - self-service: Settings → API Management → create new token (HTML Environment)
+      - assisted: request from your Reprise CSM (Clone Environment)
+    scope: per Reprise portal / client
+    rotation: not documented
+    transport: HTTPS only
+    sources:
+      - https://reprise.zendesk.com/hc/en-us/articles/18940321925659-HTML-Environment-Data-API
+      - https://reprise.zendesk.com/hc/en-us/articles/28931374746907-Clone-Environment-Data-API
+
+human_authentication:
+  - name: SAML 2.0 SSO
+    type: saml2
+    binding: service-provider-initiated
+    login_url: https://app.getreprise.com/auth/login/
+    entity_id: https://app.getreprise.com/
+    acs_url: https://app.getreprise.com/auth/complete/saml/
+    required_attributes: [email, first_name, last_name]
+    enablement: requested through support@reprise.com; Reprise returns a RelayState value and its X.509 certificate
+    source: https://reprise.zendesk.com/hc/en-us/articles/26132466512155-SAML-SSO
+  - name: Okta connector
+    type: oidc-or-saml
+    note: Reprise lists a dedicated Okta connector in its integrations overview
+    source: https://reprise.zendesk.com/hc/en-us/articles/8665755587227-Integrations-Overview
+
+authorization:
+  model: RBAC
+  note: >
+    Reprise ships role-based access control in every package with customizable roles, plus
+    builder/presenter license tiers, group sharing and folder-level permissions. MCP tokens
+    inherit whatever the authorizing user already has.
+  sources:
+    - https://www.reprise.com/platform/enterprise-scale-and-security
+    - https://reprise.zendesk.com/hc/en-us/articles/8698959505563-Understand-Default-Roles
+
+x-evidence:
+  fetched: '2026-08-13'
+  probes:
+    - url: https://app.getreprise.com/.well-known/oauth-authorization-server
+      http_status: 200
+    - url: https://app.getreprise.com/.well-known/oauth-protected-resource
+      http_status: 200
+    - url: https://app.getreprise.com/mcp/
+      http_status: 401
+      note: WWW-Authenticate Bearer with RFC 9728 resource_metadata challenge

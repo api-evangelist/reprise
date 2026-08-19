@@ -1,0 +1,105 @@
+generated: '2026-08-13'
+method: searched
+source: >
+  https://github.com/GetReprise/reprise-skills (provider-published Agent Skills) plus live 401
+  responses observed on https://app.getreprise.com/mcp/ and its /.well-known/ endpoints
+format: json
+note: >
+  Reprise publishes no OpenAPI, so this catalog is not derived from 4xx/5xx response objects. It
+  is assembled from the error codes Reprise names in its own Agent Skills and from error bodies
+  observed live. Errors are a flat JSON object — {"error": "...", "error_description": "..."} on
+  the OAuth/MCP transport, and a string error code with hint text at the MCP tool boundary. There
+  is no application/problem+json and no RFC 9457 type URI.
+
+envelopes:
+  - surface: OAuth / MCP transport
+    shape: '{"error": "<code>", "error_description": "<human sentence>"}'
+    example_status: 401
+  - surface: MCP tool boundary
+    shape: 'string error code plus a hint naming the corrective call'
+    note: >
+      Reprise states the full hint text and wire-format mapping for the tour error family lives
+      in the in-band tour_docs(slug='tour') tool, not on a public web page.
+
+problems:
+  - code: invalid_token
+    status: 401
+    surface: mcp
+    title: OAuth authentication is required for the Reprise MCP service
+    remediation: >
+      Complete the OAuth 2.0 authorization-code + PKCE flow against
+      https://app.getreprise.com/r/mcp/oauth/authorize and retry with a Bearer token. The
+      response carries a WWW-Authenticate header naming the RFC 9728 resource_metadata document
+      for this endpoint.
+    observed: '2026-08-13'
+    observed_at: https://app.getreprise.com/mcp/
+  - code: not_found
+    status: 404
+    surface: app.getreprise.com /.well-known/
+    title: This server does not provide OAuth authorization
+    remediation: Use an authenticated Reprise session or a pre-configured bearer token.
+    observed: '2026-08-13'
+  - code: wrong_id_kind
+    surface: tour
+    title: Wrong tour ID kind for this tool
+    detail: >
+      Reprise Product Tours carry three ID kinds — draft_id, published_id and
+      PublishedReplayLink.id (the slug in /launch/<slug>/). Tools accept only the kind(s) they
+      operate on and there is no auto-flip between them.
+    remediation: Call tour_get(...) to discover the labeled draft_id / published_id pair, then retry.
+    source: skills/reprise-tour-id-model.md
+  - code: tour_not_found
+    surface: tour
+    title: Tour did not resolve
+    detail: >
+      The value did not resolve as the kind you passed and did not resolve as a
+      PublishedReplayLink.id for your client either.
+    remediation: >
+      Verify the ID kind. The usual cause is pasting a <slug> from a /launch/ URL and expecting
+      it to be a draft id.
+    source: skills/reprise-tour-id-model.md
+  - code: exactly_one_id_required
+    surface: tour
+    title: Both draft_id and published_id supplied to an either-tool
+    remediation: Pass exactly one of draft_id or published_id.
+    source: skills/reprise-tour-id-model.md
+  - code: missing_draft_id
+    surface: tour
+    title: Strict-draft tool called with no ID or the wrong kind
+    remediation: Supply draft_id; discover it with tour_get(...) if you only hold a published_id.
+    source: skills/reprise-tour-id-model.md
+  - code: missing_published_id
+    surface: tour
+    title: Strict-published tool called with no ID or the wrong kind
+    remediation: Supply published_id; tour_link_* tools accept published_id only.
+    source: skills/reprise-tour-id-model.md
+  - code: extension_not_installed
+    surface: tour-capture
+    title: Reprise Builder browser extension is not installed
+    remediation: >
+      Install the Reprise extension in real Google Chrome (Chrome Web Store extensions do not
+      load in a bundled automation browser) and pair it before starting a capture session.
+    source: skills/reprise-tour-capture.md
+  - code: extension_not_responding
+    surface: tour-capture
+    title: Extension installed but not answering the capture session
+    remediation: Re-pair via tour_capture_toolbar_mount and check tour_capture_session_status.
+    source: skills/reprise-tour-capture.md
+  - code: extension_outdated
+    surface: tour-capture
+    title: Installed extension predates the capture surface being driven
+    remediation: Update the Reprise extension and restart the capture session.
+    source: skills/reprise-tour-capture.md
+
+friction_reporting:
+  tool: platform_friction_report
+  categories: [bug, tool_ergonomics, platform_gap, docs_gap, feature_request]
+  note: >
+    Reprise ships an in-band error-reporting channel: any MCP client can file a structured
+    friction report (summary, category, severity, reproducibility, outcome) straight into the
+    Reprise product backlog, and check it later with platform_friction_status. This is the
+    documented escalation path when a tool fails or a capability is missing.
+  source: skills/reprise-session-close.md
+
+x-evidence:
+  fetched: '2026-08-13'

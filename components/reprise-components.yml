@@ -1,0 +1,58 @@
+generated: '2026-08-13'
+method: searched
+source: https://reprise.zendesk.com/hc/en-us
+note: >
+  Reprise ships no JavaScript element library and no npm-distributed web components. Its
+  client-side surface is three things: an iFrame embed for published demos, an in-editor plugin
+  that nests a Clone Environment inside an HTML Environment screen, and a Salesforce Canvas
+  embedded app. All three are recorded here; none is an SDK.
+
+families:
+  - name: Demo embed
+    kind: iframe
+    description: >
+      Any published Reprise demo — Clone Environment or HTML Environment — can be embedded on a
+      customer site with an iFrame. The embed code is generated per demo from the Links panel via
+      the Embed icon. Clone Environment demos require External Sharing to be enabled first.
+    placement:
+      - inline within an existing page layout (paste inside a container element)
+      - full-page (paste into the page header / custom code section)
+    loader: none — plain iframe markup, no script tag
+    docs: https://reprise.zendesk.com/hc/en-us/articles/43491266068763-How-to-Embed-a-Demo-on-Your-Website-Using-an-iFrame
+    notes:
+      - Reprise publishes a companion note on floating dropdowns inside embedded demos
+      - docs: https://reprise.zendesk.com/hc/en-us/articles/42460720162459-Floating-Dropdowns-in-Embedded-Demos
+
+  - name: Clone Environment Embed plugin
+    kind: editor-plugin
+    description: >
+      An HTML Editor plugin that embeds a published Clone Environment demo inside an element on
+      an HTML Environment screen, so a guided tour can hand off to an interactive sandbox
+      mid-flow. Select an element (or the body, to replace the whole screen), open the context
+      menu overflow, choose Clone Environment, and paste the full URL of the published clone —
+      for example https://app.getreprise.com/ac/<clone-slug>/.
+    availability: not enabled by default; requested through support@reprise.com
+    docs: https://reprise.zendesk.com/hc/en-us/articles/25394333740315-HTML-Editor-Clone-Environment-Embed-Plugin
+
+  - name: Reprise Salesforce Canvas app
+    kind: embedded-app
+    description: >
+      A managed-package Canvas app that renders Reprise inside a Salesforce Opportunity page,
+      letting a logged-in Reprise user launch a live HTML Environment demo without leaving
+      Salesforce. Every launch logs a task in the Opportunity's Activity section.
+    install: Salesforce managed package, install for specific profiles, then add the Reprise_Canvas component to an Opportunity page layout
+    docs: https://reprise.zendesk.com/hc/en-us/articles/12010609593755-Reprise-Salesforce-Canvas-Embedded-App
+
+delivery:
+  cdn: >
+    Reprise states published demo content is distributed through a content delivery network so
+    the embedded experience is consistent globally.
+  source: https://www.reprise.com/platform/enterprise-scale-and-security
+
+not_found:
+  - web components / custom elements
+  - a versioned embed script on a public CDN
+  - a published npm element library
+
+x-evidence:
+  fetched: '2026-08-13'
