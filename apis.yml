@@ -39,6 +39,18 @@ tags:
   - Enterprise Sales
   - Marketing Technology
   - Sales Enablement
+  - MCP
+  - Agent Tooling
+  - Demo Analytics
+tags_raw:
+  - Demo Automation
+  - Product Tours
+  - Sales Demos
+  - Interactive Demos
+  - Sandbox Environments
+  - Enterprise Sales
+  - Marketing Technology
+  - Sales Enablement
   - Model Context Protocol
   - Agent Tooling
   - Demo Analytics
@@ -63,6 +75,11 @@ apis:
     humanURL: https://www.reprise.com/platform/mcp
     baseURL: https://app.getreprise.com/mcp/
     tags:
+      - MCP
+      - Agent Tooling
+      - Demo Authoring
+      - Authentication
+    tags_raw:
       - Model Context Protocol
       - Agent Tooling
       - Demo Authoring
