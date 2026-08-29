@@ -13,6 +13,17 @@ description: >
   with SSO and RBAC in every package, and has served over 20 million demos for customers including
   Databricks, ServiceNow, Cloudera, 1Password, Commvault and iCIMS.
 type: Index
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: paid
   onboarding: approval
