@@ -2,6 +2,13 @@
   "repo": "reprise",
   "feeds": [
     {
+      "source": "https://www.reprise.com/resources/blog",
+      "feed_url": "https://www.reprise.com/resources/blog",
+      "title": "",
+      "saved": 0,
+      "method": "none"
+    },
+    {
       "source": "https://x.com/getreprise",
       "feed_url": "https://x.com/getreprise",
       "title": "",
@@ -9,7 +16,7 @@
       "method": "none"
     }
   ],
-  "fetched": "2026-10-03T12:30:02Z",
+  "fetched": "2026-10-10T13:15:00Z",
   "post_count": 16,
   "agent_pulled": "2026-07-04",
   "feed_nature": "vendor-blog",
