@@ -1,0 +1,36 @@
+generated: '2026-10-18'
+edges:
+- partner_name: Meltano
+  partner: meltano
+  partner_match: aggregator
+  type: marketplace
+  marketplace: meltano-hub
+  channel: elt-connector
+  relationship: ipaas-bridge
+  direction: third-party
+  evidence: https://hub.meltano.com/extractors/tap-reprise--ella6882
+  category: null
+  contract_reference:
+    register: Meltano Hub (github.com/meltano/hub _data/meltano extractors + loaders)
+    spec_file: null
+    role: elt-connector:meltano-hub
+    registered_name: Reprise
+    matched_domain: reprise.com
+    matched_by: domain
+    detected_by: sweep-data-integration.py
+    detected: '2026-10-18'
+    signal_note: one edge per (provider, platform); connectors, streams, packages and usage are context, never read
+    plugins:
+    - tap-reprise--ella6882
+    maintenance_status:
+    - active
+    quality:
+    - gold
+    builder: 'community (Meltano Hub variant maintainers: ella6882)'
+  detected_by: sweep-data-integration.py
+  first_seen: '2026-10-18'
+method: searched
+checked:
+- https://github.com/meltano/hub
+source:
+- https://github.com/meltano/hub
