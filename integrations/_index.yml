@@ -30,5 +30,5 @@
     quality:
     - gold
     builder: 'community (Meltano Hub variant maintainers: ella6882)'
-  status: pending-partner-spec
+  status: not-a-workflow
   arazzo: null
